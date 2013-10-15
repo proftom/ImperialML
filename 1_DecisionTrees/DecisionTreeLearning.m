@@ -13,8 +13,14 @@ function tree = decision_tree_learning(examples, attributes, binary_targets)
        
        %Create a branch for each attribute
        for i = 1:2
-          disp('hey yong') 
           
+          %examples_new =  
+          %binary_targets_new = 
+          
+          if (isempty(examples))
+             make_leaf_node 
+          end
+              
        end
         
     end
