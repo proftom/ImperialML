@@ -1,29 +1,34 @@
 % Using all trees, generate a matrix with the yes/no decision
 % for all the trees
-function y = classify_boolean(all_trees, x)
+% Also returns depth
+function [y, depth] = classify_boolean(all_trees, x)
     y = nan(size(x, 1), size(all_trees, 1));
-
+    depth = nan(size(x, 1), size(all_trees, 1));
+    
     for tree_i = 1: size(all_trees, 1)
         tree = all_trees(tree_i);
-        y(:, tree_i) = classify_boolean_single_tree(tree, x);
+        [y(:, tree_i), depth(:, tree_i)]...
+            = classify_boolean_single_tree(tree, x);
     end
 end
 
 % Using a single tree, generate a yes/no answer for items
-function y = classify_boolean_single_tree(tree, x)
+function [y, depth] = classify_boolean_single_tree(tree, x)
     y = nan(size(x, 1), 1);
+    depth = nan(size(x, 1), 1);
     for i = 1:size(x, 1)
-       y(i) = classify_boolean_single_input(tree, x(i, :));
+       [y(i), depth(i)] = classify_boolean_single_input(tree, x(i, :), 0);
     end
 end
 
 % Using a SINGLE tree, generate a yes/no answer for a single item
-function result = classify_boolean_single_input(tree, x)
+function [result, depth] = classify_boolean_single_input(tree, x, depth)
     if is_leaf(tree)
         result = tree.class;
     else
-        result = classify_boolean_single_input...
-            (tree.kids{x(1, tree.op) + 1}, x);
+        depth = depth + 1;
+        [result, depth] = classify_boolean_single_input...
+            (tree.kids{x(1, tree.op) + 1}, x, depth);
     end
 end
 

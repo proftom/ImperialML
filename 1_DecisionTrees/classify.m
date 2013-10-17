@@ -1,15 +1,16 @@
 function y = classify(all_trees, x)
     y = nan(size(x, 1), 1);
-    boolean = classify_boolean(all_trees, x);
-    assert(size(x, 1) == size(boolean, 1), 'Number of inputs != outputs!');
+    [boolean, depth] = classify_boolean(all_trees, x);
+    assert(size(x, 1) == size(boolean, 1) &&...
+        size(x, 1) == size(depth, 1) , 'Number of inputs != outputs!');
     
     for i = 1:size(boolean, 1)
-        y(i) = break_tie(boolean(i, :));
+        y(i) = break_tie(boolean(i, :), depth(i, :));
     end
 end
 
 % x should be a row vector
-function result = break_tie(x)
+function result = break_tie(x, depth)
     if sum(x) == 0
        % No one has decided on a true
        result = randi(size(x, 2));
