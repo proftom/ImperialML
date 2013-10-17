@@ -3,7 +3,7 @@ function result = classify_boolean(tree, x)
     if is_leaf(tree)
         result = tree.class;
     else
-        result = classify(tree.kids{x(0, tree.op)}, x);
+        result = classify(tree.kids{x(1, tree.op)}, x);
     end
 end
 
