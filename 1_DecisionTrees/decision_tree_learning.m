@@ -1,15 +1,11 @@
 function tree = decision_tree_learning(examples, attributes, binary_targets)
 
-    %Empty attribute list
-    if (isempty(attributes))
-        tree = make_leaf_node(mean(binary_targets));
-        
     %All binary_targets are equal
-    elseif all(binary_targets == binary_targets(1))
+    if all(binary_targets == binary_targets(1))
         tree = make_leaf_node(binary_targets(1));
-        
-            
-    else        
+    elseif (sum(attributes) == 0)
+        tree = make_leaf_node(mode(binary_targets));
+    else
        %Find the best attribute to branch on
        best_attribute = ml1_chooseBestAttribute(examples, attributes, binary_targets); %marcin
        
@@ -19,13 +15,12 @@ function tree = decision_tree_learning(examples, attributes, binary_targets)
        %Create a branch for each attribute (only true or false, so we can
        %explicitally write it)
        for i = 0:1
-          
-          
+           
           [examples_i, binary_targets_i] = extract_subset(examples, binary_targets, best_attribute, i);
                     
-          if (isempty(examples))
+          if (isempty(examples_i))
              %Vote whether to accept the attribute
-            tree.kids{i+1} = make_leaf_node(mean(binary_targets));
+            tree.kids{i+1} = make_leaf_node(mode(binary_targets));
           else
             %Remove best_attribute (as it can not appear in a sub tree of
             %itself)
