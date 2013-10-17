@@ -73,3 +73,13 @@ end
 function node = make_leaf_node(value)
     node = make_node('', value);
 end
+
+%Can reduce randomness by not taking lower mode (0) when there is a tie for
+%the classification at the leaf node
+function mode = upper_mode(a)
+   if (length(a) - sum(a) >= (length(a) / 2)) 
+       mode = 1;
+   else 
+       mode = 0;
+   end      
+end
