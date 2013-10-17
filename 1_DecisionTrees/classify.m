@@ -34,12 +34,16 @@ function result = break_tie(x, depth, strategy)
             end
         case 2
             if total ~= 1
+                % Note: min will always return the index of the first
+                % min value it finds
                 [~, result] = min(depth);
             else
                 [result] = find(x, 1);
             end
         case 3
             if total ~= 1
+                % Note: max will always return the index of the first
+                % max value it finds
                 [~, result] = max(depth);
             else
                 [result] = find(x, 1);
