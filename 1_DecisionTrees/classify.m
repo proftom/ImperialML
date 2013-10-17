@@ -13,6 +13,7 @@ function result = break_tie(x)
     if sum(x) == 0
        % No one has decided on a true
        result = randi(size(x, 2));
+       %result = 0;
     elseif sum(x) > 1
        % More than one has decided on a true
        indices = find(x);
