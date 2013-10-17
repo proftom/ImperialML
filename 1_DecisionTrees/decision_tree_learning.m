@@ -2,12 +2,10 @@ function tree = decision_tree_learning(examples, attributes, binary_targets)
 
     %Empty attribute list
     if (isempty(attributes))
-        disp('empty')
         tree = make_leaf_node(mean(binary_targets));
         
     %All binary_targets are equal
     elseif all(binary_targets == binary_targets(1))
-        disp('all the same')
         tree = make_leaf_node(binary_targets(1));
         
             
