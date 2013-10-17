@@ -5,12 +5,7 @@ function [ bestAttribute, gainsVector ] = ml1_chooseBestAttribute(examples, attr
     targetPositive = sum(binary_targets);
     targetNegative = targetLength - targetPositive;
 
-    if(targetPositive > 0 && targetNegative > 0)
-        targetEntropy = -(targetPositive/targetLength)*log2(targetPositive/targetLength) ...
-                        -(targetNegative/targetLength)*log2(targetNegative/targetLength);
-    else
-        targetEntropy = 0;
-    end
+    targetEntropy = entropy(targetPositive, targetNegative);
 
     % calculate information gain of all attributes which we are still
     % concerned with
@@ -20,8 +15,6 @@ function [ bestAttribute, gainsVector ] = ml1_chooseBestAttribute(examples, attr
             gainsVector(i) = -1;
         else
             % calculate information gain for the unused attribute
-            oneAttribute = sum(examples(:,i));
-            zeroAttribute = length(examples(:,i)) - oneAttribute;
 
             positiveTarget_AttributeZero = 0;
             positiveTarget_AttributeOne = 0;
@@ -44,32 +37,34 @@ function [ bestAttribute, gainsVector ] = ml1_chooseBestAttribute(examples, attr
                     positiveTarget_AttributeOne = positiveTarget_AttributeOne + 1;
                 end
             end
-            
-            % calculate the entropy of the targets when the attribute has a
-            % value of 0
-            if(positiveTarget_AttributeZero > 0 && negativeTarget_AttributeZero > 0)
-                negativeEntropy = -(positiveTarget_AttributeZero/zeroAttribute)*log2(positiveTarget_AttributeZero/zeroAttribute) - ...
-                (negativeTarget_AttributeZero/zeroAttribute)*log2(negativeTarget_AttributeZero/zeroAttribute);
-            else
-                negativeEntropy = 0;
-            end
-            
-            % calculate the entropy of the targets when the attribute has a
-            % value of 1
-            if(positiveTarget_AttributeOne > 0 && negativeTarget_AttributeOne > 0)
-                positiveEntropy = -(positiveTarget_AttributeOne/oneAttribute)*log2(positiveTarget_AttributeOne/oneAttribute) - ...
-                (negativeTarget_AttributeOne/oneAttribute)*log2(negativeTarget_AttributeOne/oneAttribute);
-            else
-                positiveEntropy = 0;
-            end
-            
+             
             % save the information gain for the current attribute in a
             % vector
-            gainsVector(i) = targetEntropy - (oneAttribute/targetLength)*positiveEntropy - (zeroAttribute/targetLength)*negativeEntropy;
+            gainsVector(i) = informationGain(targetEntropy, targetLength, positiveTarget_AttributeZero, negativeTarget_AttributeZero, positiveTarget_AttributeOne, negativeTarget_AttributeOne);
         end
     end
     
     % extract the attribute index for which the information gain has the
     % biggest value
     [~,bestAttribute] = max(gainsVector);
+end
+
+function [entropy] = entropy(positive, negative)
+
+    if(positive > 0 && negative > 0)
+        positiveFactor = positive/(positive + negative);
+        negativeFactor = negative/(positive + negative);
+        entropy = - positiveFactor*log2(positiveFactor) - negativeFactor*log2(negativeFactor);
+    else
+        entropy = 0;
+    end
+    
+end
+
+function [informationGain] = informationGain(targetEntropy, targetLength, positiveAttributeZero, negativeAttributeZero, positiveAttributeOne, negativeAttributeOne)
+    
+    zeroFactor = (positiveAttributeZero + negativeAttributeZero) / targetLength;
+    oneFactor = (positiveAttributeOne + negativeAttributeOne) / targetLength;
+    informationGain = targetEntropy - zeroFactor*(entropy(positiveAttributeZero, negativeAttributeZero)) - oneFactor*(entropy(positiveAttributeOne, negativeAttributeOne)); 
+
 end
