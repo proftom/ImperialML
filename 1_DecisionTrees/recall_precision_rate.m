@@ -13,8 +13,8 @@ function matrix = recall_precision_rate...
         fn = sum(confusion(outcome, :)) - tp;
         fp = sum(confusion(:, outcome)) - tp;
         
-        matrix(outcome, 1) = tp/(tp + fn) * 100;
-        matrix(outcome, 2) = tp/(tp + fp) * 100;
+        matrix(outcome, 1) = tp/(tp + fn);
+        matrix(outcome, 2) = tp/(tp + fp);
     end
 
 end
