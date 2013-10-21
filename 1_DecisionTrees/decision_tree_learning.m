@@ -1,6 +1,6 @@
 % Given examples, along with the corresponding column vector of binary
 % targets/classification, build a decision tree.
-% Attributes is a column vector of attributes, which consists of 
+% Attributes is a row vector of attributes, which consists of 
 % zeroes or ones to indicate if an attribute should be used.
 % This is a recursive function.
 function tree =... 
@@ -153,14 +153,6 @@ function [examples_i, binary_targets_i] = ...
 end
 
 % Node making helper methods
-function node = make_node(op, class)
-    node = struct();
-    
-    node.op = op;
-    node.kids = {};
-    node.class = class;
-end
-
 function node = make_internal_node(op)
     node = make_node(op, '');
 end

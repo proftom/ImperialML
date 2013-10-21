@@ -7,6 +7,8 @@ function results = ten_fold_validation(examples, targets, strategy)
         strategy = 1;
     end
 
+    no_emotions = 6;
+    
     for i = 1:9
 
         % Reserve some data for testing
@@ -17,7 +19,7 @@ function results = ten_fold_validation(examples, targets, strategy)
         % Data used to train the tree
         training_examples = examples([1 : (i-1)*100 (i)*100 + 1: 1000], :);
         training_classifications = targets([1 : (i-1)*100 (i)*100 + 1: 1000],:);
-        emotion_decision_trees = generate_all_trees_wrapper(training_examples, ones(1,45), training_classifications);
+        emotion_decision_trees = generate_all_trees(training_examples, training_classifications, no_emotions);
 
         % Concatinate classifications
         classifcation_results((i-1)*100+1:i*100,:) = classify(emotion_decision_trees,  test_examples, strategy);
@@ -31,7 +33,7 @@ function results = ten_fold_validation(examples, targets, strategy)
     test_classifications = targets(901:length(examples), :);
     training_examples = examples(1:900, :);
     training_classifications = targets(1:900, :);
-    emotion_decision_trees = generate_all_trees_wrapper(training_examples, ones(1,45), training_classifications);
+    emotion_decision_trees = generate_all_trees(training_examples, training_classifications, no_emotions);
     
     % Concatinate results
     classifcation_results(901:length(examples),:) = classify(emotion_decision_trees,  test_examples, strategy);
