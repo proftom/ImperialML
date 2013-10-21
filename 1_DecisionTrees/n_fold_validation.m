@@ -61,7 +61,7 @@ function results = n_fold_validation(examples, classifications, n,strategy)
         % contain the remainder) explicitly. 
 
         % Set aside the data to exercise the generated tree
-        test_examples = examples(lower_bound+1 : length(examples), :);
+        test_examples = examples(lower_bound + 1 : length(examples), :);
 
         % Grab the data to generate the tree
         training_examples = examples(1 : (n - 1)*partition_size, :);
