@@ -1,7 +1,13 @@
-% Tie-breaking algorithms
-% 1 - (default) pure randomness
-% 2 - Minimum depth
-% 3 - Maximum depth
+% Using a column vector of trees, and examples x, 
+% classify the examples according to the tree. 
+% Returns a column vector with the classification/targets.
+% The strategy used to break ties are as follow:
+%   Tie-breaking algorithms
+%   1 - (default) pure randomness
+%   2 - Minimum depth
+%   3 - Maximum depth
+% Internally, this function calls classify_boolean to generate binary
+% classifications first before breaking the tie
 function y = classify(all_trees, x, strategy)
     if nargin < 3
         strategy = 1;
@@ -16,7 +22,8 @@ function y = classify(all_trees, x, strategy)
     end
 end
 
-% x should be a row vector
+% Internal function to break tie.
+% x is a row vector for the current tie that needs breaking
 function result = break_tie(x, depth, strategy)
     total = sum(x);
     switch strategy
