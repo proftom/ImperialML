@@ -338,12 +338,15 @@ Marcin Kadziela, \texttt{mk4910}
 \multicolumn{1}{ |c|[1.5pt] }{6} & 80\% & 79\% & 80\% \\ \cline{1-5}
 \end{tabu}
 \caption{Recall, precision and $F_1$ measure for the \emph{clean} dataset (Strategy 1 - see next section)}
-\label{recallPrecisionF1Clean}
+\label{recallPrecisionF1CleanStrategyOne}
 \end{table}
 
 \subsubsection{Average classification rate}
 
+\begin{figure}[H]
 \[ C = \frac{720}{1004} = 71.7\% \]
+\caption{Classification rate for the \emph{clean} dataset (Strategy 1 - see next section)}
+\end{figure}
 
 \subsection{Noisy dataset}
 \subsubsection{Confusion matrix}
@@ -392,12 +395,15 @@ Marcin Kadziela, \texttt{mk4910}
 \multicolumn{1}{ |c|[1.5pt] }{6} & 70\% & 71\% & 71\% \\ \cline{1-5}
 \end{tabu}
 \caption{Recall, precision and $F_1$ measure for the \emph{noisy} dataset (Strategy 1 - see next section)}
-\label{recallPrecisionF1Noisy}
+\label{recallPrecisionF1NoisyStrategyOne}
 \end{table}
 
 \subsubsection{Average classification rate}
 
+\begin{figure}[H]
 \[ C = \frac{621}{1004} = 61.9\% \]
+\caption{Classification rate for the \emph{noisy} dataset (Strategy 1 - see next section)}
+\end{figure}
 
 \clearpage
 
@@ -421,17 +427,215 @@ Advantages of the first method include the fact that it is the simplest and easi
 
 The intuition behind the second method is that the smaller number of steps a tree needs to take in order to classify an emotion, the more "sure" it should be of the emotion being accurately classified. On the other hand, should that intuition prove to be incorrect, we also wanted to see what would be the performance of an exact opposite algorithm, which is the third method outlined above. Both methods require us to store the depth of the returned solution, in addition to the classification results of the 6 trees (in a $Nx6$ matrix). This increases the memory requirements in comparison to Strategy 1.
 
-\subsubsection{Evaluation of Strategy 2}
+\subsubsection{Evaluation of Strategy 2 on clean dataset}
 
+\begin{table}[H]
+\center
+\begin{tabu}{cc|c|c|c|c|c|c|}
+\cline{3-8}
+& & \multicolumn{6}{ c| }{Predicted class} \\ \cline{3-8}
+& & 1 & 2 & 3 & 4 & 5 & 6 \\ \cline{1-2} \tabucline[1.5pt]{3-8}
+\multicolumn{1}{ |c| }{\multirow{6}{*}{Actual class} } &
+\multicolumn{1}{ |c|[1.5pt] }{1} & \textbf{70} & 12 & 21 & 12 & 8 & 9 \\ \cline{2-8}
+\multicolumn{1}{ |c| }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{2} & 30 & \textbf{122} & 26 & 8 & 5 & 7 \\ \cline{2-8}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{3} & 6 & 16 & \textbf{71} & 9 & 7 & 10 \\ \cline{2-8}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{4} & 17 & 20 & 5 & \textbf{164} & 5 & 5 \\ \cline{2-8}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{5} & 15 & 15 & 15 & 20 & \textbf{62} & 15 \\ \cline{2-8}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{6} & 3 & 28 & 9 & 8 & 2 & \textbf{157} \\ \cline{1-8}
+\end{tabu}
+\caption{Confusion Matrix for the \emph{clean} dataset (Strategy 2)}
+\label{confusionMatrixCleanStrategyTwo}
+\end{table}
 
+\begin{table}[H]
+\center
+\begin{tabu}{cc|c|c|c|}
+\cline{3-5}
+& & Recall & Precision & $F_1$ \\ \cline{1-2} \tabucline[1.5pt]{3-5}
+\multicolumn{1}{ |c| }{\multirow{6}{*}{Actual class} } &
+\multicolumn{1}{ |c|[1.5pt] }{1} & 53\% & 50\% & 51\% \\ \cline{2-5}
+\multicolumn{1}{ |c| }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{2} & 62\% & 57\% & 59\% \\ \cline{2-5}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{3} & 60\% & 48\% & 53\% \\ \cline{2-5}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{4} & 76\% & 74\% & 75\% \\ \cline{2-5}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{5} & 47\% & 70\% & 56\% \\ \cline{2-5}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{6} & 76\% & 81\% & 79\% \\ \cline{1-5}
+\end{tabu}
+\caption{Recall, precision and $F_1$ measure for the \emph{clean} dataset (Strategy 2)}
+\label{recallPrecisionF1CleanStrategyTwo}
+\end{table}
 
-\subsubsection{Evaluation of Strategy 3}
+\begin{figure}[H]
+\[ C = \frac{646}{1004} = 64.3\% \]
+\caption{Classification rate for the \emph{clean} dataset (Strategy 2)}
+\end{figure}
 
+\subsubsection{Evaluation of Strategy 2 on noisy dataset}
 
+\begin{table}[H]
+\center
+\begin{tabu}{cc|c|c|c|c|c|c|}
+\cline{3-8}
+& & \multicolumn{6}{ c| }{Predicted class} \\ \cline{3-8}
+& & 1 & 2 & 3 & 4 & 5 & 6 \\ \cline{1-2} \tabucline[1.5pt]{3-8}
+\multicolumn{1}{ |c| }{\multirow{6}{*}{Actual class} } &
+\multicolumn{1}{ |c|[1.5pt] }{1} & \textbf{23} & 11 & 21 & 15 & 11 & 7 \\ \cline{2-8}
+\multicolumn{1}{ |c| }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{2} & 24 & \textbf{108} & 16 & 28 & 5 & 6 \\ \cline{2-8}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{3} & 25 & 14 & \textbf{83} & 37 & 8 & 20 \\ \cline{2-8}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{4} & 28 & 14 & 10 & \textbf{135} & 6 & 16 \\ \cline{2-8}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{5} & 12 & 10 & 12 & 20 & \textbf{44} & 12 \\ \cline{2-8}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{6} & 39 & 8 & 13 & 14 & 8 & \textbf{138} \\ \cline{1-8}
+\end{tabu}
+\caption{Confusion Matrix for the \emph{noisy} dataset (Strategy 2)}
+\label{confusionMatrixNoisyStrategyTwo}
+\end{table}
+
+\begin{table}[H]
+\center
+\begin{tabu}{cc|c|c|c|}
+\cline{3-5}
+& & Recall & Precision & $F_1$ \\ \cline{1-2} \tabucline[1.5pt]{3-5}
+\multicolumn{1}{ |c| }{\multirow{6}{*}{Actual class} } &
+\multicolumn{1}{ |c|[1.5pt] }{1} & 26\% & 15\% & 19\% \\ \cline{2-5}
+\multicolumn{1}{ |c| }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{2} & 58\% & 65\% & 61\% \\ \cline{2-5}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{3} & 44\% & 54\% & 49\% \\ \cline{2-5}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{4} & 65\% & 54\% & 59\% \\ \cline{2-5}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{5} & 40\% & 54\% & 46\% \\ \cline{2-5}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{6} & 63\% & 69\% & 66\% \\ \cline{1-5}
+\end{tabu}
+\caption{Recall, precision and $F_1$ measure for the \emph{noisy} dataset (Strategy 2)}
+\label{recallPrecisionF1NoisyStrategyTwo}
+\end{table}
+
+\begin{figure}[H]
+\[ C = \frac{531}{1004} = 52.9\% \]
+\caption{Classification rate for the \emph{noisy} dataset (Strategy 2)}
+\end{figure}
+
+\subsubsection{Evaluation of Strategy 3 on clean dataset}
+
+\begin{table}[H]
+\center
+\begin{tabu}{cc|c|c|c|c|c|c|}
+\cline{3-8}
+& & \multicolumn{6}{ c| }{Predicted class} \\ \cline{3-8}
+& & 1 & 2 & 3 & 4 & 5 & 6 \\ \cline{1-2} \tabucline[1.5pt]{3-8}
+\multicolumn{1}{ |c| }{\multirow{6}{*}{Actual class} } &
+\multicolumn{1}{ |c|[1.5pt] }{1} & \textbf{78} & 29 & 3 & 6 & 15 & 1 \\ \cline{2-8}
+\multicolumn{1}{ |c| }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{2} & 12 & \textbf{163} & 1 & 9 & 9 & 4 \\ \cline{2-8}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{3} & 14 & 9 & \textbf{80} & 3 & 3 & 10 \\ \cline{2-8}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{4} & 3 & 10 & 3 & \textbf{179} & 13 & 8 \\ \cline{2-8}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{5} & 21 & 20 & 4 & 7 & \textbf{76} & 4 \\ \cline{2-8}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{6} & 4 & 9 & 14 & 3 & 10 & \textbf{167} \\ \cline{1-8}
+\end{tabu}
+\caption{Confusion Matrix for the \emph{clean} dataset (Strategy 3)}
+\label{confusionMatrixCleanStrategyThree}
+\end{table}
+
+\begin{table}[H]
+\center
+\begin{tabu}{cc|c|c|c|}
+\cline{3-5}
+& & Recall & Precision & $F_1$ \\ \cline{1-2} \tabucline[1.5pt]{3-5}
+\multicolumn{1}{ |c| }{\multirow{6}{*}{Actual class} } &
+\multicolumn{1}{ |c|[1.5pt] }{1} & 59\% & 59\% & 59\% \\ \cline{2-5}
+\multicolumn{1}{ |c| }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{2} & 82\% & 68\% & 74\% \\ \cline{2-5}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{3} & 67\% & 76\% & 71\% \\ \cline{2-5}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{4} & 83\% & 86\% & 85\% \\ \cline{2-5}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{5} & 58\% & 60\% & 59\% \\ \cline{2-5}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{6} & 81\% & 86\% & 83\% \\ \cline{1-5}
+\end{tabu}
+\caption{Recall, precision and $F_1$ measure for the \emph{clean} dataset (Strategy 3)}
+\label{recallPrecisionF1CleanStrategyThree}
+\end{table}
+
+\begin{figure}[H]
+\[ C = \frac{743}{1004} = 74.0\% \]
+\caption{Classification rate for the \emph{clean} dataset (Strategy 3)}
+\end{figure}
+
+\subsubsection{Evaluation of Strategy 3 on noisy dataset}
+
+\begin{table}[H]
+\center
+\begin{tabu}{cc|c|c|c|c|c|c|}
+\cline{3-8}
+& & \multicolumn{6}{ c| }{Predicted class} \\ \cline{3-8}
+& & 1 & 2 & 3 & 4 & 5 & 6 \\ \cline{1-2} \tabucline[1.5pt]{3-8}
+\multicolumn{1}{ |c| }{\multirow{6}{*}{Actual class} } &
+\multicolumn{1}{ |c|[1.5pt] }{1} & \textbf{36} & 10 & 15 & 2 & 18 & 7 \\ \cline{2-8}
+\multicolumn{1}{ |c| }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{2} & 21 & \textbf{123} & 20 & 11 & 8 & 4 \\ \cline{2-8}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{3} & 24 & 12 & \textbf{108} & 16 & 9 & 18 \\ \cline{2-8}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{4} & 15 & 18 & 18 & \textbf{141} & 5 & 12 \\ \cline{2-8}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{5} & 25 & 6 & 9 & 6 & \textbf{55} & 9 \\ \cline{2-8}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{6} & 10 & 6 & 32 & 7 & 15 & \textbf{150} \\ \cline{1-8}
+\end{tabu}
+\caption{Confusion Matrix for the \emph{noisy} dataset (Strategy 3)}
+\label{confusionMatrixNoisyStrategyThree}
+\end{table}
+
+\begin{table}[H]
+\center
+\begin{tabu}{cc|c|c|c|}
+\cline{3-5}
+& & Recall & Precision & $F_1$ \\ \cline{1-2} \tabucline[1.5pt]{3-5}
+\multicolumn{1}{ |c| }{\multirow{6}{*}{Actual class} } &
+\multicolumn{1}{ |c|[1.5pt] }{1} & 41\% & 27\% & 33\% \\ \cline{2-5}
+\multicolumn{1}{ |c| }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{2} & 66\% & 70\% & 68\% \\ \cline{2-5}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{3} & 58\% & 53\% & 56\% \\ \cline{2-5}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{4} & 67\% & 77\% & 72\% \\ \cline{2-5}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{5} & 50\% & 50\% & 50\% \\ \cline{2-5}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{6} & 58\% & 75\% & 71\% \\ \cline{1-5}
+\end{tabu}
+\caption{Recall, precision and $F_1$ measure for the \emph{noisy} dataset (Strategy 3)}
+\label{recallPrecisionF1NoisyStrategyThree}
+\end{table}
+
+\begin{figure}[H]
+\[ C = \frac{613}{1004} = 61.1\% \]
+\caption{Classification rate for the \emph{noisy} dataset (Strategy 3)}
+\end{figure}
 
 \subsubsection{Comparison of methods}
-
-
 
 \subsection{Pruning}
 
