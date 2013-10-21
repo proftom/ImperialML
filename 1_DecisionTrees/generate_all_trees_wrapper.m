@@ -5,6 +5,6 @@ function tree = generate_all_trees_wrapper(examples, attributes, allTargets)
         t(i) = decision_tree_learning(examples, attributes, binary_targets);
     end
     
-    tree = t;
+    tree = t';
     
 end

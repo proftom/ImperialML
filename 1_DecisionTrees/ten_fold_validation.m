@@ -19,7 +19,7 @@ for i = 1:9
     emotion_decision_trees = generate_all_trees_wrapper(training_examples, ones(1,45), training_classifications);
     
     %Concatinate classifications
-    classifcation_results((i-1)*100+1:i*100,:) = classify(emotion_decision_trees',  test_examples, strategy);
+    classifcation_results((i-1)*100+1:i*100,:) = classify(emotion_decision_trees,  test_examples, strategy);
     
 end
     
@@ -33,7 +33,7 @@ end
     emotion_decision_trees = generate_all_trees_wrapper(training_examples, ones(1,45), training_classifications);
     
     %Concatinate results
-    classifcation_results(901:length(examples),:) = classify(emotion_decision_trees',  test_examples, strategy);
+    classifcation_results(901:length(examples),:) = classify(emotion_decision_trees,  test_examples, strategy);
 
 results = classifcation_results;
 
