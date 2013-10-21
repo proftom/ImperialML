@@ -35,6 +35,7 @@
 \usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
 \usepackage{multirow}
 \usepackage{tabu}
+\usepackage{float}
 
 % Margins
 \topmargin=-0.45in
@@ -190,54 +191,257 @@ Marcin Kadziela, \texttt{mk4910}
 \newpage
 
 %----------------------------------------------------------------------------------------
-%	SECTION 1
+%	EXAMPLES
 %----------------------------------------------------------------------------------------
 
-% To have just one problem per page, simply put a \clearpage after each problem
+% Example how to paste code into the report:
+%
+% Listing \ref{LIFDemo} shows a Matlab script.
+% \matlabscript{LIFDemo}{Sample Perl Script With Highlighting}
 
-\section{Algorithm Description}
-Listing \ref{LIFDemo} shows a Perl script.
+% Example how to paste a figure into the report:
+% \begin{figure}
+% \center
+% \includegraphics[width=0.75\columnwidth]{example_figure} % Example image
+% \caption{sometext}
+% \end{figure}
 
-\matlabscript{LIFDemo}{Sample Perl Script With Highlighting}
+% Ready code for the confusion matrix:
+%
+%\begin{table}
+%\center
+%\begin{tabu}{cc|c|c|c|c|c|c|}
+%\cline{3-8}
+%& & \multicolumn{6}{ c| }{Predicted class} \\ \cline{3-8}
+%& & 1 & 2 & 3 & 4 & 5 & 6 \\ \cline{1-2} \tabucline[1.5pt]{3-8}
+%\multicolumn{1}{ |c| }{\multirow{6}{*}{Actual class} } &
+%\multicolumn{1}{ |c|[1.5pt] }{1} & 0 & 0 & 0 & 0 & 0 & 0     \\ \cline{2-8}
+%\multicolumn{1}{ |c| }{}                        &
+%\multicolumn{1}{ |c|[1.5pt] }{2} & 0 & 0 & 0 & 0 & 0 & 0     \\ \cline{2-8}
+%\multicolumn{1}{ |c|  }{}                        &
+%\multicolumn{1}{ |c|[1.5pt] }{3} & 0 & 0 & 0 & 0 & 0 & 0     \\ \cline{2-8}
+%\multicolumn{1}{ |c|  }{}                        &
+%\multicolumn{1}{ |c|[1.5pt] }{4} & 0 & 0 & 0 & 0 & 0 & 0     \\ \cline{2-8}
+%\multicolumn{1}{ |c|  }{}                        &
+%\multicolumn{1}{ |c|[1.5pt] }{5} & 0 & 0 & 0 & 0 & 0 & 0     \\ \cline{2-8}
+%\multicolumn{1}{ |c|  }{}                        &
+%\multicolumn{1}{ |c|[1.5pt] }{6} & 0 & 0 & 0 & 0 & 0 & 0     \\ \cline{1-8}
+%\end{tabu}
+%\caption{Confusion Matrix}
+%\label{confusionMatrix}
+%\end{table}
+
+%----------------------------------------------------------------------------------------
+%	SECTION 1 - Implementation Details
+%----------------------------------------------------------------------------------------
+
+\section{Implementation Details}
 
 \clearpage
 
 %----------------------------------------------------------------------------------------
-%	SECTION 2
+%	SECTION 2 - Tree Figures
 %----------------------------------------------------------------------------------------
 
-\section{Other Discussion}
+\section{Tree Figures}
 
-Some text\\
-
-\begin{figure}
+\begin{figure}[!ht]
 \center
-\includegraphics[width=0.75\columnwidth]{example_figure} % Example image
-\caption{sometext}
+\includegraphics[width=0.75\columnwidth]{AngerTree} % Example image
+\caption{Trained decsion tree on the clean dataset for emotion 1 (anger)}
 \end{figure}
 
-\begin{table}
+\bigskip\bigskip\bigskip\bigskip\bigskip\bigskip\bigskip
+
+\begin{figure}[!ht]
+\center
+\includegraphics[width=0.75\columnwidth]{DisgustTree} % Example image
+\caption{Trained decsion tree on the clean dataset for emotion 2 (disgust)}
+\end{figure}
+
+\begin{figure}[!ht]
+\center
+\includegraphics[width=0.75\columnwidth]{FearTree} % Example image
+\caption{Trained decsion tree on the clean dataset for emotion 3 (fear)}
+\end{figure}
+
+\begin{figure}[!ht]
+\center
+\includegraphics[width=0.75\columnwidth]{HappinessTree} % Example image
+\caption{Trained decsion tree on the clean dataset for emotion 4 (happiness)}
+\end{figure}
+
+\begin{figure}[!ht]
+\center
+\includegraphics[width=0.75\columnwidth]{SadnessTree} % Example image
+\caption{Trained decsion tree on the clean dataset for emotion 5 (sadness)}
+\end{figure}
+
+\begin{figure}[!ht]
+\center
+\includegraphics[width=0.75\columnwidth]{HappinessTree} % Example image
+\caption{Trained decsion tree on the clean dataset for emotion 6 (surprise)}
+\end{figure}
+
+\clearpage
+
+%----------------------------------------------------------------------------------------
+%	SECTION 3 - Evaluation
+%----------------------------------------------------------------------------------------
+
+\section{Evaluation}
+
+\subsection{Clean dataset}
+\subsubsection{Confusion matrix}
+
+\begin{table}[H]
 \center
 \begin{tabu}{cc|c|c|c|c|c|c|}
 \cline{3-8}
 & & \multicolumn{6}{ c| }{Predicted class} \\ \cline{3-8}
 & & 1 & 2 & 3 & 4 & 5 & 6 \\ \cline{1-2} \tabucline[1.5pt]{3-8}
 \multicolumn{1}{ |c| }{\multirow{6}{*}{Actual class} } &
-\multicolumn{1}{ |c|[1.5pt] }{1} & 0 & 0 & 0 & 0 & 0 & 0     \\ \cline{2-8}
+\multicolumn{1}{ |c|[1.5pt] }{1} & \textbf{85} & 15 & 4 & 9 & 17 & 2 \\ \cline{2-8}
 \multicolumn{1}{ |c| }{}                        &
-\multicolumn{1}{ |c|[1.5pt] }{2} & 0 & 0 & 0 & 0 & 0 & 0     \\ \cline{2-8}
+\multicolumn{1}{ |c|[1.5pt] }{2} & 17 & \textbf{137} & 5 & 12 & 15 & 12 \\ \cline{2-8}
 \multicolumn{1}{ |c|  }{}                        &
-\multicolumn{1}{ |c|[1.5pt] }{3} & 0 & 0 & 0 & 0 & 0 & 0     \\ \cline{2-8}
+\multicolumn{1}{ |c|[1.5pt] }{3} & 8 & 7 & \textbf{80} & 0 & 10 & 14 \\ \cline{2-8}
 \multicolumn{1}{ |c|  }{}                        &
-\multicolumn{1}{ |c|[1.5pt] }{4} & 0 & 0 & 0 & 0 & 0 & 0     \\ \cline{2-8}
+\multicolumn{1}{ |c|[1.5pt] }{4} & 4 & 12 & 8 & \textbf{177} & 9 & 6 \\ \cline{2-8}
 \multicolumn{1}{ |c|  }{}                        &
-\multicolumn{1}{ |c|[1.5pt] }{5} & 0 & 0 & 0 & 0 & 0 & 0     \\ \cline{2-8}
+\multicolumn{1}{ |c|[1.5pt] }{5} & 15 & 10 & 11 & 11 & \textbf{75} & 10 \\ \cline{2-8}
 \multicolumn{1}{ |c|  }{}                        &
-\multicolumn{1}{ |c|[1.5pt] }{6} & 0 & 0 & 0 & 0 & 0 & 0     \\ \cline{1-8}
+\multicolumn{1}{ |c|[1.5pt] }{6} & 3 & 10 & 11 & 6 & 11 & \textbf{166} \\ \cline{1-8}
 \end{tabu}
-\caption{Confusion Matrix}
-\label{confusionMatrix}
+\caption{Confusion Matrix for the \emph{clean} dataset (Strategy 1 - see next section)}
+\label{confusionMatrixCleanStrategyOne}
 \end{table}
+
+\subsubsection{Recall, precision and $F_1$ measure}
+
+\begin{table}[H]
+\center
+\begin{tabu}{cc|c|c|c|}
+\cline{3-5}
+& & Recall & Precision & $F_1$ \\ \cline{1-2} \tabucline[1.5pt]{3-5}
+\multicolumn{1}{ |c| }{\multirow{6}{*}{Actual class} } &
+\multicolumn{1}{ |c|[1.5pt] }{1} & 64\% & 64\% & 64\% \\ \cline{2-5}
+\multicolumn{1}{ |c| }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{2} & 69\% & 72\% & 70\% \\ \cline{2-5}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{3} & 67\% & 67\% & 67\% \\ \cline{2-5}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{4} & 82\% & 82\% & 82\% \\ \cline{2-5}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{5} & 57\% & 55\% & 56\% \\ \cline{2-5}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{6} & 80\% & 79\% & 80\% \\ \cline{1-5}
+\end{tabu}
+\caption{Recall, precision and $F_1$ measure for the \emph{clean} dataset (Strategy 1 - see next section)}
+\label{recallPrecisionF1Clean}
+\end{table}
+
+\subsubsection{Average classification rate}
+
+\[ C = \frac{720}{1004} = 71.7\% \]
+
+\subsection{Noisy dataset}
+\subsubsection{Confusion matrix}
+
+\begin{table}[H]
+\center
+\begin{tabu}{cc|c|c|c|c|c|c|}
+\cline{3-8}
+& & \multicolumn{6}{ c| }{Predicted class} \\ \cline{3-8}
+& & 1 & 2 & 3 & 4 & 5 & 6 \\ \cline{1-2} \tabucline[1.5pt]{3-8}
+\multicolumn{1}{ |c| }{\multirow{6}{*}{Actual class} } &
+\multicolumn{1}{ |c|[1.5pt] }{1} & \textbf{25} & 11 & 16 & 5 & 22 & 9 \\ \cline{2-8}
+\multicolumn{1}{ |c| }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{2} & 12 & \textbf{127} & 13 & 19 & 8 & 8 \\ \cline{2-8}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{3} & 17 & 13 & \textbf{104} & 19 & 14 & 20 \\ \cline{2-8}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{4} & 11 & 11 & 13 & \textbf{154} & 6 & 14 \\ \cline{2-8}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{5} & 17 & 7 & 7 & 12 & \textbf{56} & 11 \\ \cline{2-8}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{6} & 10 & 14 & 21 & 9 & 11 & \textbf{155} \\ \cline{1-8}
+\end{tabu}
+\caption{Confusion Matrix for the \emph{noisy} dataset (Strategy 1 - see next section)}
+\label{confusionMatrixNoisyStrategyOne}
+\end{table}
+
+\subsubsection{Recall, precision and $F_1$ measure}
+
+\begin{table}[H]
+\center
+\begin{tabu}{cc|c|c|c|}
+\cline{3-5}
+& & Recall & Precision & $F_1$ \\ \cline{1-2} \tabucline[1.5pt]{3-5}
+\multicolumn{1}{ |c| }{\multirow{6}{*}{Actual class} } &
+\multicolumn{1}{ |c|[1.5pt] }{1} & 28\% & 27\% & 28\% \\ \cline{2-5}
+\multicolumn{1}{ |c| }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{2} & 68\% & 69\% & 69\% \\ \cline{2-5}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{3} & 56\% & 60\% & 58\% \\ \cline{2-5}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{4} & 74\% & 71\% & 72\% \\ \cline{2-5}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{5} & 51\% & 48\% & 49\% \\ \cline{2-5}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{6} & 70\% & 71\% & 71\% \\ \cline{1-5}
+\end{tabu}
+\caption{Recall, precision and $F_1$ measure for the \emph{noisy} dataset (Strategy 1 - see next section)}
+\label{recallPrecisionF1Noisy}
+\end{table}
+
+\subsubsection{Average classification rate}
+
+\[ C = \frac{621}{1004} = 61.9\% \]
+
+\clearpage
+
+%----------------------------------------------------------------------------------------
+%	SECTION 4 - Questions
+%----------------------------------------------------------------------------------------
+
+\section{Questions}
+\subsection{Noisy-Clean Datasets}
+
+\subsection{Ambiguity}
+\subsubsection{Description of methods}
+
+We tried three methods for assignment of a single value to examples which have been positively classified by more than one tree:
+\begin{enumerate} \itemsep0pt \parskip0pt \parsep0pt
+  \item Assign a \emph{random} class from the set of predicted classes
+  \item Assign a class which has been returned at a \emph{smallest depth}
+  \item Assign a class which has been returned at a \emph{greatest depth}
+\end{enumerate}
+Advantages of the first method include the fact that it is the simplest and easiest to implement. Additionally, it serves as a nice benchmark for the other methods. It allows to see whether they preform any better than just a simple random assignment. Obviously, the main disadvantage is that the method does not use any clever heuristic in order to classify the examples. Evaluation of Strategy 1 has been presented in the previous section. \smallskip
+
+The intuition behind the second method is that the smaller number of steps a tree needs to take in order to classify an emotion, the more "sure" it should be of the emotion being accurately classified. On the other hand, should that intuition prove to be incorrect, we also wanted to see what would be the performance of an exact opposite algorithm, which is the third method outlined above. Both methods require us to store the depth of the returned solution, in addition to the classification results of the 6 trees (in a $Nx6$ matrix). This increases the memory requirements in comparison to Strategy 1.
+
+\subsubsection{Evaluation of Strategy 2}
+
+
+
+\subsubsection{Evaluation of Strategy 3}
+
+
+
+\subsubsection{Comparison of methods}
+
+
+
+\subsection{Pruning}
+
+\clearpage
+
+%----------------------------------------------------------------------------------------
+%	SECTION 5 - Code Flowchart
+%----------------------------------------------------------------------------------------
+
+\section{Code Flowchart}
 
 \clearpage
 
