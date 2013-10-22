@@ -36,6 +36,7 @@
 \usepackage{multirow}
 \usepackage{tabu}
 \usepackage{float}
+\usepackage{pbox}
 
 % Margins
 \topmargin=-0.45in
@@ -245,41 +246,48 @@ Marcin Kadziela, \texttt{mk4910}
 
 \section{Tree Figures}
 
-\begin{figure}[!ht]
+\subsection{Emotion 1 - Anger}
+\begin{figure}[H]
 \center
-\includegraphics[width=0.75\columnwidth]{AngerTree} % Example image
+\includegraphics[width=0.9\columnwidth]{AngerTree} % Example image
 \caption{Trained decsion tree on the clean dataset for emotion 1 (anger)}
 \end{figure}
 
-\bigskip\bigskip\bigskip\bigskip\bigskip\bigskip\bigskip
-
-\begin{figure}[!ht]
+%\bigskip\bigskip\bigskip\bigskip\bigskip\bigskip
+\subsection{Emotion 2 - Disgust}
+\begin{figure}[H]
 \center
-\includegraphics[width=0.75\columnwidth]{DisgustTree} % Example image
+\includegraphics[width=0.9\columnwidth]{DisgustTree} % Example image
 \caption{Trained decsion tree on the clean dataset for emotion 2 (disgust)}
 \end{figure}
 
-\begin{figure}[!ht]
+\subsection{Emotion 3 - Fear}
+\begin{figure}[H]
 \center
-\includegraphics[width=0.75\columnwidth]{FearTree} % Example image
+\includegraphics[width=0.9\columnwidth]{FearTree} % Example image
 \caption{Trained decsion tree on the clean dataset for emotion 3 (fear)}
 \end{figure}
 
-\begin{figure}[!ht]
+\bigskip\bigskip\bigskip\bigskip\bigskip\bigskip
+\subsection{Emotion 4 - Happiness}
+\begin{figure}[H]
 \center
-\includegraphics[width=0.75\columnwidth]{HappinessTree} % Example image
+\includegraphics[width=0.9\columnwidth]{HappinessTree} % Example image
 \caption{Trained decsion tree on the clean dataset for emotion 4 (happiness)}
 \end{figure}
 
-\begin{figure}[!ht]
+\subsection{Emotion 5 - Sadness}
+\begin{figure}[H]
 \center
-\includegraphics[width=0.75\columnwidth]{SadnessTree} % Example image
+\includegraphics[width=0.9\columnwidth]{SadnessTree} % Example image
 \caption{Trained decsion tree on the clean dataset for emotion 5 (sadness)}
 \end{figure}
 
-\begin{figure}[!ht]
+\bigskip\bigskip\bigskip\bigskip\bigskip\bigskip
+\subsection{Emotion 6 - Surprise}
+\begin{figure}[H]
 \center
-\includegraphics[width=0.75\columnwidth]{HappinessTree} % Example image
+\includegraphics[width=0.9\columnwidth]{SurpriseTree} % Example image
 \caption{Trained decsion tree on the clean dataset for emotion 6 (surprise)}
 \end{figure}
 
@@ -290,6 +298,8 @@ Marcin Kadziela, \texttt{mk4910}
 %----------------------------------------------------------------------------------------
 
 \section{Evaluation}
+
+The results presented below are for a random assignment of conflicted classifications. Evaluation of other strategies is presented in the next section.
 
 \subsection{Clean dataset}
 \subsubsection{Confusion matrix}
@@ -405,6 +415,10 @@ Marcin Kadziela, \texttt{mk4910}
 \caption{Classification rate for the \emph{noisy} dataset (Strategy 1 - see next section)}
 \end{figure}
 
+\subsection{Discussion of results}
+
+The discussion of results can be found in the next section Questions/Noisy-Clean Datasets.
+
 \clearpage
 
 %----------------------------------------------------------------------------------------
@@ -413,6 +427,10 @@ Marcin Kadziela, \texttt{mk4910}
 
 \section{Questions}
 \subsection{Noisy-Clean Datasets}
+
+Unsuprisingly, the trees perform better on the \emph{clean} dataset, for which the proportion of misclassified examples (the error rate) is $E_C = \frac{284}{1004} = 28.3\%$. On the other hand, the error rate for the \emph{noisy} dataset is $E_N = \frac{383}{1004} = 38.1\%$. This is expected, since in case of the \emph{noisy} dataset the trees have been trained on data which itself contains classification errors. Since we trained the trees on an unreliable dataset, we cannot expect them to perform better than the trees trained and tested on an error-free data.\medskip
+
+Another observation is that the trees perform exceptionally well on some emotions in both datasets (e.g.\ 4 and 6) while they fall short of expected performance for other emotions (e.g.\ 5 in the \emph{clean} dataset or 1, 3, 5 in the \emph{noisy} dataset). There is a particularly interesting loss of performance in the \emph{noisy} dataset for emotion 1 (anger). This might be caused by the fact, that there has been much noise in the training set for this emotion, and the trees might have been incorrectly trained.
 
 \subsection{Ambiguity}
 \subsubsection{Description of methods}
@@ -423,9 +441,9 @@ We tried three methods for assignment of a single value to examples which have b
   \item Assign a class which has been returned at a \emph{smallest depth}
   \item Assign a class which has been returned at a \emph{greatest depth}
 \end{enumerate}
-Advantages of the first method include the fact that it is the simplest and easiest to implement. Additionally, it serves as a nice benchmark for the other methods. It allows to see whether they preform any better than just a simple random assignment. Obviously, the main disadvantage is that the method does not use any clever heuristic in order to classify the examples. Evaluation of Strategy 1 has been presented in the previous section. \smallskip
+Advantages of the first method include the fact that it is the simplest and easiest to implement. Additionally, it serves as a nice benchmark for the other methods. Comparison of the precision, recall, $F_1$ measure and the classification rate of other methods to the one which just picks a random class from the conflicted ones, makes it possible to determine whether the performance of more sophisticated conflict-resolution methods is satisfactory. Obviously, the main disadvantage is that the method does not use any clever heuristic in order to classify the examples. Evaluation of Strategy 1 has been presented in the previous section. \medskip
 
-The intuition behind the second method is that the smaller number of steps a tree needs to take in order to classify an emotion, the more "sure" it should be of the emotion being accurately classified. On the other hand, should that intuition prove to be incorrect, we also wanted to see what would be the performance of an exact opposite algorithm, which is the third method outlined above. Both methods require us to store the depth of the returned solution, in addition to the classification results of the 6 trees (in a $Nx6$ matrix). This increases the memory requirements in comparison to Strategy 1.
+The intuition behind the second method is that the smaller number of steps a tree needs to take in order to classify an emotion, the more "sure" it should be of the emotion being accurately classified. On the other hand, should that intuition prove to be incorrect during evaluation, we also wanted to see what would be the performance of an exact opposite algorithm, which is the third method outlined above. Both methods require us to store the depth of the returned solution, in addition to the classification results of the 6 trees (in a $N\times6$ matrix). This slightly increases the memory requirements in comparison to Strategy 1, however the time and space complexity stays the same.
 
 \subsubsection{Evaluation of Strategy 2 on clean dataset}
 
@@ -637,7 +655,47 @@ The intuition behind the second method is that the smaller number of steps a tre
 
 \subsubsection{Comparison of methods}
 
+Table \ref{comparisonTable} presents classification rates for all three strategies in one place. The first thing to notice is that Strategy 2, which we expected to work reasonably well, has actually performed the worst of all investigated strategies. On the other hand, Strategy 3 performed best in case of the \emph{clean} dataset and very closely to Strategy 1 in the \emph{noisy} dataset. However, since the classification rates for Strategy 1 and 3 in the \emph{noisy} dataset are very close to each other, and Strategy 1 includes some random assignment, it might just have been the case that in this particular evaluation, Strategy 1 was just "lucky" and assigned the correct example in most cases where there was a conflict. If we ran the simulation again, Strategy 1 might have performed a bit worse. Taking this into consideration, the conclusion of this evaluation is that Strategy 3 is our best choice.
+
+\begin{table}[H]
+\center
+\begin{tabular}{c|c|c|}
+\cline{2-3}
+ & \pbox{20cm}{Classification rate \\ \emph{clean} dataset} & \pbox{20cm}{Classification rate \\ \emph{noisy} dataset} \\ \hline
+\multicolumn{1}{ |c| }{Strategy 1} & 71.7\% & \textbf{61.9\%} \\ \hline
+\multicolumn{1}{ |c| }{Strategy 2} & 64.3\% & 52.9\% \\ \hline
+\multicolumn{1}{ |c| }{Strategy 3} & \textbf{74.0\%} & 61.1\% \\ \hline
+\end{tabular}
+\caption{Aggregated classification rates for all strategies. Highlighted is the best result for a given dataset.}
+\label{comparisonTable}
+\end{table}
+
 \subsection{Pruning}
+
+The function \texttt{pruning\_example} first generates a decision tree using MATLAB's built-in \texttt{treefit} function, based on the input examples \texttt{x} and classes \texttt{y}. It then runs the \texttt{treetest} function twice on the generated tree, each time using different arguments attributes:
+\begin{enumerate} \itemsep0pt \parskip0pt \parsep0pt
+\item \texttt{'cross'} - which performs a 10-fold cross-validation on the generated tree in order to determine, what is the optimal tree size, which is defined as the one, for which the cost is within one standard error of the minimum-cost subtree
+\item \texttt{'resubstitution'} - which tries to determine the optimal tree size, however this time using the resubstitution method. Resubstitution means that the test set is the same as training set
+\end{enumerate}
+The function also prunes the entire tree based on the results of the \texttt{treetest} function (however these trees are never used anywhere in the function) and finally plots the results of the \texttt{treetest} function. The plots for the \emph{clean} and \emph{noisy} datasets are presented in Figures \ref{pruneClean} and \ref{pruneNoisy}. \medskip
+
+For the 10-fold cross-validation data, the blue line shows nicely the concept of overfitting. As we can see, the cost (or error) for the tree starts to go up above a certain tree size. In this case, the optimal tree size (as defined by MATLAB) for the \emph{clean} dataset is 39, however the smallest cost is achieved at a tree size of 51 (tree size defined as a number of terminal nodes). For the \emph{noisy} dataset, the optimal tree size is 29, however the smallest cost is achieved at a tree size of 51.
+
+For the resubstitution method, the cost (red line) always goes down with the tree size. It is expected, since we are using the same data for training as then for testing. Therefore, the resubstitition method is not a reliable indicator of the tree performance on an unseen data at all, and should only be used to see whether the tree has been correctly trained on the training data.
+
+\begin{figure}[H]
+\center
+\includegraphics[width=1\columnwidth]{pruneClean} % Example image
+\caption{Pruning example on the \emph{clean} dataset}
+\label{pruneClean}
+\end{figure}
+
+\begin{figure}[H]
+\center
+\includegraphics[width=1\columnwidth]{pruneNoisy} % Example image
+\caption{Pruning example on the \emph{noisy} dataset}
+\label{pruneNoisy}
+\end{figure}
 
 \clearpage
 
