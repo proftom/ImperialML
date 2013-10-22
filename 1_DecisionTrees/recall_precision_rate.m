@@ -1,5 +1,5 @@
 % Actual and predicted are expected to be in column vector form
-% Possible outcomes is the number of possible classes/outcomes
+% Possible outcomes is the number of unique classifications
 % Returns a possible_outcomes by 2 matrix
 % where the first column is the recall rate, and the second column
 % is the precision rate in percentage

@@ -3,14 +3,14 @@
 % Returns a column vector with the classification/targets.
 % The strategy used to break ties are as follow:
 %   Tie-breaking algorithms
-%   1 - (default) pure randomness
+%   1 - Pure randomness
 %   2 - Minimum depth
-%   3 - Maximum depth
+%   3 - (default) Maximum depth
 % Internally, this function calls classify_boolean to generate binary
 % classifications first before breaking the tie
 function y = classify(all_trees, x, strategy)
     if nargin < 3
-        strategy = 1;
+        strategy = 3;
     end
     y = nan(size(x, 1), 1);
     [boolean, depth] = classify_boolean(all_trees, x);

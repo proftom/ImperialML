@@ -6,13 +6,12 @@
 % generated tree. This produces total size of data / n results each
 % iteration. With each iteration the partitions change.
 function results = n_fold_validation(examples, classifications, n,strategy)
-    % Optional arguments are not properly implemented in MATLAB... like most
-    % things
-
     % Default to split paritions into 10 
     if nargin < 3
         n = 10;
     end
+    
+    no_emotions = 6;
 
     % Default to apply greatest depth strategy
     if nargin < 4
@@ -44,8 +43,8 @@ function results = n_fold_validation(examples, classifications, n,strategy)
         training_classifications = classifications(...
             [1 : (i-1)*partition_size (i*partition_size) + 1 : len], :);
         
-        emotion_decision_trees = generate_all_trees_wrapper( ... 
-            training_examples, ones(1,45), training_classifications);
+        emotion_decision_trees = generate_all_trees( ... 
+            training_examples, training_classifications, no_emotions);
 
         % Concatinate the classifications
         classifcation_results((i-1)*partition_size+1:i*partition_size,:)...
@@ -70,8 +69,9 @@ function results = n_fold_validation(examples, classifications, n,strategy)
             partition_size, :);
         
         emotion_decision_trees = ...
-            generate_all_trees_wrapper(training_examples, ones(1,45), ...
-            training_classifications);
+            generate_all_trees(training_examples, ...
+                               training_classifications,...
+                               no_emotions);
 
         %Concatinate the classifications
         classifcation_results(((n - 1)*partition_size+1) : len,:) =... 

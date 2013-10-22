@@ -1,1 +1,6 @@
 *.m~
+*.log
+*.aux
+*.pdf
+*.synctex.gz
+*.toc
