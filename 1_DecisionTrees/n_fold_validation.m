@@ -5,16 +5,17 @@
 % partition, before testing how well the smaller partition fits to the
 % generated tree. This produces total size of data / n results each
 % iteration. With each iteration the partitions change.
+% Possible outcomes is the number of unique classifications
 function results = n_fold_validation(examples, classifications,...
-    n, no_emotions, strategy)
+    n, possible_outcomes, strategy)
     % Default to split paritions into 10 
     if nargin < 3
         n = 10;
     end
     
-    % Default to 6 emotions
+    % Default to 6 possible outcomes
     if nargin < 4
-        no_emotions = 6;
+        possible_outcomes = 6;
     end
     
     % Default to apply greatest depth strategy
@@ -48,7 +49,8 @@ function results = n_fold_validation(examples, classifications,...
             [1 : (i-1)*partition_size (i*partition_size) + 1 : len], :);
         
         emotion_decision_trees = generate_all_trees( ... 
-            training_examples, training_classifications, no_emotions);
+            training_examples, training_classifications,...
+            possible_outcomes);
 
         % Concatinate the classifications
         classifcation_results((i-1)*partition_size+1:i*partition_size,:)...
@@ -75,7 +77,7 @@ function results = n_fold_validation(examples, classifications,...
         emotion_decision_trees = ...
             generate_all_trees(training_examples, ...
                                training_classifications,...
-                               no_emotions);
+                               possible_outcomes);
 
         %Concatinate the classifications
         classifcation_results(((n - 1)*partition_size+1) : len,:) =... 
