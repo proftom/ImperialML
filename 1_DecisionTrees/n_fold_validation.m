@@ -5,16 +5,20 @@
 % partition, before testing how well the smaller partition fits to the
 % generated tree. This produces total size of data / n results each
 % iteration. With each iteration the partitions change.
-function results = n_fold_validation(examples, classifications, n,strategy)
+function results = n_fold_validation(examples, classifications,...
+    n, no_emotions, strategy)
     % Default to split paritions into 10 
     if nargin < 3
         n = 10;
     end
     
-    no_emotions = 6;
-
-    % Default to apply greatest depth strategy
+    % Default to 6 emotions
     if nargin < 4
+        no_emotions = 6;
+    end
+    
+    % Default to apply greatest depth strategy
+    if nargin < 5
         strategy = 3;
     end
     
