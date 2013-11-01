@@ -238,6 +238,20 @@ Marcin Kadziela, \texttt{mk4910}
 
 \section{Implementation Details}
 
+The decision tree learning algorithm, along with the subsequent classification and statistics generating functionality are implemented as a set of functions. A flowchart of the code flow can be found in the Code Flowchart section.\medskip
+
+At its core, the decision tree is defined by a series of nodes, which are produced by the factory function \texttt{make\_node}. The structure of the nodes are defined by the coursework specifications.\medskip
+
+One tree is built from each of the six possible emotions. Before the trees can be built, the targets for the training data has to be transformed into binary targets by a function \texttt{transform\_targets} (i.e. \texttt{1} or \texttt{0} for that particular emotion). The decision tree is then built. Because of the recursive nature of the decision tree algorithm, there needs to be a way to keep track of the attributes that has been “used” higher up in the tree. This is done with a binary row vector that keeps track of whether a particular attribute has been “used”. Initially, this vector is a $1\times45$ vector of ones (\texttt{ones(1,45)}). The "best attribute" chosen for building the tree is first computed by calculating the entropy, and subsequently the information gain of the attributes. The attribute with the highest information gain is then chosen to be used as a node. The value corresponding to the attribute in the tracking vector is then set to \texttt{0} to indicate that we are no longer concerned with this particular argument and the the two kids of the node are then recursively built.\medskip
+
+Using the trees that are built, additional examples can then be classified. Classification takes place in two steps. Firstly, the examples are classified binarily to see if they are positive or negative examples of each tree. At the same time, the depth of the tree at which a decision was made is also tracked, for tie-breaking purposes. Then, the examples are assigned the respective emotions based on the binary classifications. In the case of ties when more than one emotions are deduced positively, or when all emotions are deduced negatively, three strategies of breaking ties are implemented.\medskip
+
+The first strategy involves a random selection from all the emotions that were deduced positively, or any random emotion if none of them were deduced positively. Due to the random nature, the prediction will vary when run consecutively for the same set of examples. The second strategy involves choosing the emotion that was decided at the lowest depth of the decision tree. Finally, the third strategy will choose the emotion that was decided at the highest depth of the decision tree. The second and third strategies uses the min and max functions of Matlab. If more than one of the values are equal,  min and max will always choose the first instance. Thus, the second and third strategies will always predict the same results for the same set of examples.\medskip
+
+Ten-fold-cross validation is implemented as a generic n-fold function that can take any arbitrary number of folds. The predicted results from the examples that were not used in a fold are concatenated at the end and returned from the function.\medskip
+
+Throughout the implementation, checks are implemented in place in order to ensure that the code functions properly. For example, there are assertions in place to check that the size of the input is equal to the size of the output. This is done in place of more comprehensive unit and integrations tests.
+
 \clearpage
 
 %----------------------------------------------------------------------------------------
@@ -704,6 +718,20 @@ For the resubstitution method, the cost (red line) always goes down with the tre
 %----------------------------------------------------------------------------------------
 
 \section{Code Flowchart}
+
+\begin{figure}[H]
+\center
+\includegraphics[width=0.6\columnwidth]{flowchartBuildTree}
+\caption{Flowchart for the functions which train the trees}
+\label{flowchartBuildTree}
+\end{figure}
+
+\begin{figure}[H]
+\center
+\includegraphics[width=0.9\columnwidth]{flowchartClassify}
+\caption{Flowchart for the functions which classify the examples}
+\label{flowchartClassify}
+\end{figure}
 
 \clearpage
 
