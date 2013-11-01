@@ -1,7 +1,6 @@
 *.m~
 *.log
 *.aux
-*.pdf
 *.synctex.gz
 *.toc
 !mlcoursework-manual-2013.pdf
