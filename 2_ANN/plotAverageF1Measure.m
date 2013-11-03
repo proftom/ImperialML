@@ -12,7 +12,7 @@ function plotAverageF1Measure(confusionMatrixSingle, confusionMatrixMulti)
     
     for i=1:foldsSingle
         statsSingle = recallPrecisionF1(confusionMatrixSingle{i});
-        statsMulti = recallPrecisionF1(confusionMatrixSingle{i});
+        statsMulti = recallPrecisionF1(confusionMatrixMulti{i});
         averageF1Single(i) = mean(statsSingle(:,3));
         averageF1Multi(i) = mean(statsMulti(:,3));
     end
@@ -24,5 +24,5 @@ function plotAverageF1Measure(confusionMatrixSingle, confusionMatrixMulti)
     ylabel('F1 measure');
     legend('Six single-output networks','One multi-output network');
     scatter(1:10,averageF1Single,35,'b','fill');
-    scatter(1:10,averageF1Single,35,'r','fill');
+    scatter(1:10,averageF1Multi,35,'r','fill');
 end

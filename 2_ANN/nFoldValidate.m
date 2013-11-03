@@ -6,10 +6,11 @@
 % generated tree. This produces total size of data / n results each
 % iteration. With each iteration the partitions change.
 % Possible outcomes is the number of unique classifications
-function confusionMatrix = nFoldValidateMulti(examples, classifications, n)
-    % Default to split paritions into 10 
-    if nargin < 3
-        n = 10;
+function confusionMatrix = nFoldValidate(examples, classifications, n, networkType)
+   
+    % Error check for network type
+    if(~strcmp(networkType, 'single') && ~strcmp(networkType, 'multi'))
+         error('nFoldValidate:argChck', 'Wrong network type to generate');
     end
 
     % Preallocate for speed
@@ -21,11 +22,19 @@ function confusionMatrix = nFoldValidateMulti(examples, classifications, n)
     partition_size = floor(len / n);       
 
     %Define network parameters:
-    hiddenLayers = 1;
-    hiddenNeurons = 18;
-    transferFcn = 'tansig';
-    trainingFcn = 'trainscg';
-    learningRate = 0.01;
+    if(strcmp(networkType,'multi'))
+        hiddenLayers = 1;
+        hiddenNeurons = 18;
+        transferFcn = 'tansig';
+        trainingFcn = 'trainscg';
+        learningRate = 0.01;
+    elseif(strcmp(networkType,'single'))
+        hiddenLayers = 1;
+        hiddenNeurons = 20;
+        transferFcn = 'tansig';
+        trainingFcn = 'trainscg';
+        learningRate = 0.01;
+    end
     
     for i = 1:n - 1
     % A little tricky to read to begin with, but we use syntax to select
@@ -46,7 +55,12 @@ function confusionMatrix = nFoldValidateMulti(examples, classifications, n)
             [1 : (i-1)*partition_size (i*partition_size) + 1 : len], :);
         [trainingExamplesANN,trainingClassesANN] = ANNdata(trainingExamples,trainingClasses);
         
-        net = generateMultiOutputNetwork(trainingExamplesANN,trainingClassesANN,hiddenLayers,hiddenNeurons,transferFcn,trainingFcn,learningRate);
+        if(strcmp(networkType,'multi'))
+            net = generateMultiOutputNetwork(trainingExamplesANN,trainingClassesANN,hiddenLayers,hiddenNeurons,transferFcn,trainingFcn,learningRate);
+        elseif(strcmp(networkType,'single'))
+            net = generateSingleOutputNetworks(trainingExamplesANN,trainingClassesANN,hiddenLayers,hiddenNeurons,transferFcn,trainingFcn,learningRate);
+        end
+        
         predictions = testANN(net, testExamplesANN);
         confusionMatrix{i} = confusion_matrix(testClasses,predictions,6);
         
@@ -69,7 +83,12 @@ function confusionMatrix = nFoldValidateMulti(examples, classifications, n)
         trainingClasses = classifications(1:(n - 1) * partition_size, :);
         [trainingExamplesANN,trainingClassesANN] = ANNdata(trainingExamples,trainingClasses);
         
-        net = generateMultiOutputNetwork(trainingExamplesANN,trainingClassesANN,hiddenLayers,hiddenNeurons,transferFcn,trainingFcn,learningRate);
+        if(strcmp(networkType,'multi'))
+            net = generateMultiOutputNetwork(trainingExamplesANN,trainingClassesANN,hiddenLayers,hiddenNeurons,transferFcn,trainingFcn,learningRate);
+        elseif(strcmp(networkType,'single'))
+            net = generateSingleOutputNetworks(trainingExamplesANN,trainingClassesANN,hiddenLayers,hiddenNeurons,transferFcn,trainingFcn,learningRate);
+        end
+        
         predictions = testANN(net, testExamplesANN);
         confusionMatrix{n} = confusion_matrix(testClasses,predictions,6);
 end
