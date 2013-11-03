@@ -6,7 +6,7 @@ function [net] = generateMultiOutputNetwork(xANN,yANN,layers,neurons,transferFcn
 
     net.trainParam.showWindow = 0;
     for i = 1:layers
-        net.layers{layers}.transferFcn = transferFcn;
+        net.layers{i}.transferFcn = transferFcn;
     end
     net.trainParam.lr = lr;
     net.trainParam.showWindow = 0;

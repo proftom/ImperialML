@@ -14,7 +14,7 @@ function [recallPrecision, confusion] = optimiseNetwork(x, y, layers, neurons, t
     net = configure(net,trainingSetANN,trainingClassANN);
     
     for i = 1:layers
-        net.layers{layers}.transferFcn = transferFcn;
+        net.layers{i}.transferFcn = transferFcn;
     end
     
     net.trainParam.lr = lr;
