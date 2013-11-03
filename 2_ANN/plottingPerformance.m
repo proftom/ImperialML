@@ -1,4 +1,4 @@
-function [ method ] = plottingPerfomance(x,y)
+function [ method ] = plottingPerformance(x,y)
 
 method = zeros(50,1);
 
