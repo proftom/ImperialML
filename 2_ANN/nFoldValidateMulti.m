@@ -12,6 +12,7 @@ function confusionMatrix = nFoldValidateMulti(examples, classifications, n)
         n = 10;
     end
 
+    % Preallocate for speed
     confusionMatrix = cell(1,n);
     
     %Length, which forms upper bound
@@ -19,6 +20,12 @@ function confusionMatrix = nFoldValidateMulti(examples, classifications, n)
     % Size of each partition
     partition_size = floor(len / n);       
 
+    %Define network parameters:
+    hiddenLayers = 1;
+    hiddenNeurons = 18;
+    transferFcn = 'tansig';
+    trainingFcn = 'trainscg';
+    learningRate = 0.01;
     
     for i = 1:n - 1
     % A little tricky to read to begin with, but we use syntax to select
@@ -39,7 +46,7 @@ function confusionMatrix = nFoldValidateMulti(examples, classifications, n)
             [1 : (i-1)*partition_size (i*partition_size) + 1 : len], :);
         [trainingExamplesANN,trainingClassesANN] = ANNdata(trainingExamples,trainingClasses);
         
-        net = generateMultiOutputNetwork(trainingExamplesANN,trainingClassesANN,1,20,'tansig','trainscg',0.01);
+        net = generateMultiOutputNetwork(trainingExamplesANN,trainingClassesANN,hiddenLayers,hiddenNeurons,transferFcn,trainingFcn,learningRate);
         predictions = testANN(net, testExamplesANN);
         confusionMatrix{i} = confusion_matrix(testClasses,predictions,6);
         
@@ -62,7 +69,7 @@ function confusionMatrix = nFoldValidateMulti(examples, classifications, n)
         trainingClasses = classifications(1:(n - 1) * partition_size, :);
         [trainingExamplesANN,trainingClassesANN] = ANNdata(trainingExamples,trainingClasses);
         
-        net = generateMultiOutputNetwork(trainingExamplesANN,trainingClassesANN,1,20,'tansig','trainscg',0.01);
+        net = generateMultiOutputNetwork(trainingExamplesANN,trainingClassesANN,hiddenLayers,hiddenNeurons,transferFcn,trainingFcn,learningRate);
         predictions = testANN(net, testExamplesANN);
         confusionMatrix{n} = confusion_matrix(testClasses,predictions,6);
 end
