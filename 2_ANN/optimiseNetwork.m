@@ -27,6 +27,6 @@ function [recallPrecision, confusion] = optimiseNetwork(x, y, layers, neurons, t
     net = train(net,trainingSetANN,trainingClassANN);
     predictions = sim(net,testSetANN);
     
-    recallPrecision = recall_precision_rate(testClass,NNout2labels(predictions),6);
     confusion = confusion_matrix(testClass,NNout2labels(predictions),6);
+    recallPrecision = recallPrecisionF1(confusion);
 end
