@@ -24,13 +24,13 @@ function confusionMatrix = nFoldValidate(examples, classifications, n, networkTy
     %Define network parameters:
     if(strcmp(networkType,'multi'))
         hiddenLayers = 1;
-        hiddenNeurons = 18;
+        hiddenNeurons = 23;
         transferFcn = 'tansig';
         trainingFcn = 'trainscg';
         learningRate = 0.01;
     elseif(strcmp(networkType,'single'))
         hiddenLayers = 1;
-        hiddenNeurons = 20;
+        hiddenNeurons = 9;
         transferFcn = 'tansig';
         trainingFcn = 'trainscg';
         learningRate = 0.01;

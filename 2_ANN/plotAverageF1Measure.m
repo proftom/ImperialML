@@ -1,4 +1,4 @@
-function plotAverageF1Measure(confusionMatrixSingle, confusionMatrixMulti)
+function [averageF1Single, averageF1Multi ] = plotAverageF1Measure(confusionMatrixSingle, confusionMatrixMulti)
 
     foldsSingle = size(confusionMatrixSingle,2);
     foldsMulti = size(confusionMatrixMulti,2);
@@ -23,6 +23,6 @@ function plotAverageF1Measure(confusionMatrixSingle, confusionMatrixMulti)
     xlabel('Fold number');
     ylabel('F1 measure');
     legend('Six single-output networks','One multi-output network');
-    scatter(1:10,averageF1Single,35,'b','fill');
-    scatter(1:10,averageF1Multi,35,'r','fill');
+    scatter(1:10,averageF1Single,45,'b','fill');
+    scatter(1:10,averageF1Multi,45,'r','fill');
 end
