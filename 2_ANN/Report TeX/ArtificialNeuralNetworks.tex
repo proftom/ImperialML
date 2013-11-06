@@ -220,7 +220,18 @@ Marcin Kadziela, \texttt{mk4910}
 %----------------------------------------------------------------------------------------
 
 \section{Implementation Details}
-
+\subsection{Overview}
+This report describes the work conducted in the second assignment of the Machine Learning course. The main goal of this coursework was to investigate and learn how to use the tools provided by the  Neural Network Toolbox. The task that we were given was a typical pattern recognition and classification problem. We were supposed to build one network with multiple outputs and multiple single-output neural networks (one for each class). We started this assignment by optimising parameters for each of these networks. The approach taken was optimising topology together with training function first. In later phases we focused on other parameters (such as minimum gradient or goal). Later on we used the 10-fold cross-validation in order to compare performance of the two network types that we have created.
+\subsection{Description of the MATLAB functions}
+\begin{itemize}
+\item \texttt{nFoldValidate(examples, classifications, n, networkType)} - performs the n-fold cross-validation. Takes as arguments the examples, classifications, number of folds and the network type (\texttt{'single'} or \texttt{'multi'}). Based on the network type, it either generates multiple single-output networks or one multi-output network and validates them. It returns a cell array which contains the confusion matrices for each fold
+\item \texttt{generateMultiOutputNetwork(xANN, yANN, layers, neurons, transferFcn,\\trainingFcn, lr, grad, goal)} - generates a multiple-output network based on the arguments which are passed to the function. These include the number of layers, neurons in a layer, training function, transfer function, learning rate, stopping gradient and the performance foal. It is used within \texttt{nFoldValidate()}
+\item \texttt{generateSingleOutputNetworks(xANN, yANN, layers, neurons, transferFcn,\\trainingFcn, lr, grad, goal)} - generates multiple single-output networks based on the same arguments as the previous function
+\item \texttt{testANN(network, inputs)} - produces a vector of predictions for the  inputs using provided neural network (either the multi or single output one)
+\item \texttt{recallPrecisionF1(confusionMatrix)} - calculates the recall, precision and F1 measures after taking the confusion matrix as an argument
+\item \texttt{plotAverageF1Measure(confusionMatrixSingle, confusionMatrixMulti)} takes two arrays of confusion matrices (one for each fold) from the single and multi-output networks and plots the average F1 measure for each fold. Its output is a direct answer to the question from Part VIII
+\item \texttt{confusion\_matrix(actual, predicted, possible\_outcomes)} - calculates the confusion matrix given a column vector of actual and predicted outcomes
+\end{itemize}
 
 \clearpage
 
