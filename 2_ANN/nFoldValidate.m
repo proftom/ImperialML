@@ -65,7 +65,7 @@ function confusionMatrix = nFoldValidate(examples, classifications, n, networkTy
             net = generateSingleOutputNetworks(trainingExamplesANN,trainingClassesANN,hiddenLayers,hiddenNeurons,transferFcn,trainingFcn,learningRate,grad,goal);
         end
         
-        predictions = testANN(net, testExamplesANN);
+        predictions = testANN(net, testExamples);
         confusionMatrix{i} = confusion_matrix(testClasses,predictions,6);
         
     end
@@ -93,6 +93,6 @@ function confusionMatrix = nFoldValidate(examples, classifications, n, networkTy
             net = generateSingleOutputNetworks(trainingExamplesANN,trainingClassesANN,hiddenLayers,hiddenNeurons,transferFcn,trainingFcn,learningRate,grad,goal);
         end
         
-        predictions = testANN(net, testExamplesANN);
+        predictions = testANN(net, testExamples);
         confusionMatrix{n} = confusion_matrix(testClasses,predictions,6);
 end

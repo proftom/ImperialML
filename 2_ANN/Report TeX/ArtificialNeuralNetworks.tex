@@ -458,7 +458,9 @@ The average $F_1$ measure per fold for both types of networks is presented below
 \caption{Classification rate for six single-output ANNs for the \emph{noisy} dataset}
 \end{figure}
 
+\clearpage
 \subsection{Discussion of results}
+Overall, we can say that our neural networks perform quite well, especially on the \emph{clean} dataset. There is one emotion in the \emph{noisy} dataset however, for which the performance is bad - emotion 1 with $17\%$ recall and $60\%$ precision for the six single-output networks. It is also worth noting, that the neural networks perform better than the decision trees on both \emph{clean} and \emph{noisy} datasets. The best classification rate for the \emph{clean} dataset achieved by the decision trees was $74.0\%$ compared to $84.3\%$ scored by the neural networks. Similarly, for the \emph{noisy} dataset the results were $61.9\%$ compared to $74.0\%$.
 
 \clearpage
 
@@ -493,7 +495,7 @@ The final, optimal topology which we used for the networks are:
 \end{enumerate}
 We arrived at these values by performing a series of simulations of the performance of networks with different values on the first fold on the \emph{clean} dataset. In the first experiment, we tried to optimise the topology i.e. number of hidden layers, number of hidden neurons in each layer as well as the training function. We did this my repeatedly training the network with different parameters and plotted the results which are presented in \textbf{Figures \ref{multiOutput1layer}, \ref{multiOutput2layer}, \ref{singleOutput1layer}, \ref{singleOutput2layer}}. From the analysis of the results it can be concluded that the networks with just one hidden layer perform slightly better than those with two hidden layers, and so we trained our final networks with a single hidden layer. In case of the single six-output network, the peak is achieved for 32 hidden neurons, however as our final topology we selected 23 hidden neurons, since the classification rate for this topology is insignificantly smaller, yet the number of neurons is reduced by a third. For the six single-output networks, we decided to choose 9 hidden neurons. \medskip
 
-In terms of the training function, it looks that \texttt{'trainscg'} and \texttt{'trainrp'} perform similarly, while \texttt{'trainlm'} almost always exhibits the worst performance. Due to the speed of training and the classification rates at our chosen numbers of hidden neurons, we ultimately choose \texttt{'trainscg'} as our training function for both types of networks.\medskip
+In terms of the training function, it looks that \texttt{'trainscg'} and \texttt{'trainrp'} perform similarly, while \texttt{'trainlm'} almost always exhibits the worst performance. Due to the speed of training and the classification rates at our chosen numbers of hidden neurons, we ultimately choose \texttt{'trainscg'} as our training function for both types of networks. We also tried to look at the performance of \texttt{'trainbr'} function, however its running time was extremely slow and we ended up not including it. \medskip
 
 We selected these values because we needed eventually to decide on the topology of the network. However, by looking at the plots, it is clear that the number of hidden layers and neurons (at least for the range of values which we investigated) does not cause the performance to vary significantly beyond some minimum number of neurons and before some maximum. As long as the number of hidden neurons is in some reasonable range (above 20 for the single six-output network and between 6 and 30 for six single-output networks), it does not matter themendously what exact value we would choose.
 
@@ -527,6 +529,22 @@ We selected these values because we needed eventually to decide on the topology 
 
 \subsection{Overfitting}
 \subsection{Six-output vs. single-output networks}
+The aggregated classification rate for the both types of networks is presented in Figure \ref{comparisonTable}.
+
+\begin{table}[H]
+\center
+\begin{tabular}{c|c|c|}
+\cline{2-3}
+ & \pbox{20cm}{Classification rate \\ \emph{clean} dataset} & \pbox{20cm}{Classification rate \\ \emph{noisy} dataset} \\ \hline
+\multicolumn{1}{ |c| }{Single six-output network} & 83.0\% & 70.8\% \\ \hline
+\multicolumn{1}{ |c| }{Six single-output networks} & \textbf{84.3\%} & \textbf{74.0\%} \\ \hline
+\end{tabular}
+\caption{Aggregated classification rates for all strategies. Highlighted is the best result for a given dataset.}
+\label{comparisonTable}
+\end{table}
+
+Clearly, the six single-output networks perform better in case of both datasets, however their advantage is not tremendous. The main advantage of them is therefore improved classification rate. Their disadvantages include a slower performance and slower training as well as the possibility of two networks classifying the same example as two different emotions. In our case, since we are using the sigmoid as our transfer function, in order to break tie we always selected the network with greatest output. Similarly, the single six-output netwotks's main advantage is it's speed which comes at the expense of the average classification rate.
+
 \subsection{Ideal parameter optimisation}
 
 \clearpage
@@ -537,6 +555,12 @@ We selected these values because we needed eventually to decide on the topology 
 
 \section{Code Flowchart}
 
+\begin{figure}[H]
+\center
+\includegraphics[width=1\columnwidth]{flowchart}
+\caption{Code flowchart}
+\label{flowchart}
+\end{figure}
 
 \clearpage
 
