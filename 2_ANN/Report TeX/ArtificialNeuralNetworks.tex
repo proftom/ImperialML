@@ -38,6 +38,30 @@
 \usepackage{float}
 \usepackage{pbox}
 
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Matlab,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true
+  tabsize=3
+}
+
 % Margins
 \topmargin=-0.45in
 \evensidemargin=0in
@@ -197,21 +221,311 @@ Marcin Kadziela, \texttt{mk4910}
 
 \section{Implementation Details}
 
+
 \clearpage
 
 %----------------------------------------------------------------------------------------
-%	SECTION 4 - Questions
+%	SECTION 2 - Evaluation
+%----------------------------------------------------------------------------------------
+
+\section{Evaluation}
+The average $F_1$ measure per fold for both types of networks is presented below:
+\begin{figure}[H]
+\center
+\includegraphics[width=0.9\columnwidth]{averageF1eachFold}
+\caption{Average $F_1$ measure per fold for both types of networks}
+\end{figure}
+
+\subsection{Clean dataset}
+\subsubsection{Single six-output network}
+
+\begin{table}[H]
+\center
+\begin{tabu}{cc|c|c|c|c|c|c|}
+\cline{3-8}
+& & \multicolumn{6}{ c| }{Predicted class} \\ \cline{3-8}
+& & 1 & 2 & 3 & 4 & 5 & 6 \\ \cline{1-2} \tabucline[1.5pt]{3-8}
+\multicolumn{1}{ |c| }{\multirow{6}{*}{Actual class} } &
+\multicolumn{1}{ |c|[1.5pt] }{1} & \textbf{86} & 18 & 6 & 6 & 14 & 2 \\ \cline{2-8}
+\multicolumn{1}{ |c| }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{2} & 9 & \textbf{167} & 6 & 5 & 11 & 0 \\ \cline{2-8}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{3} & 2 & 5 & \textbf{97} & 3 & 5 & 7 \\ \cline{2-8}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{4} & 0 & 6 & 1 & \textbf{203} & 4 & 2 \\ \cline{2-8}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{5} & 7 & 26 & 2 & 3 & \textbf{92} & 2 \\ \cline{2-8}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{6} & 0 & 3 & 12 & 2 & 2 & \textbf{188} \\ \cline{1-8}
+\end{tabu}
+\caption{Confusion Matrix for single six-output ANN for the \emph{clean} dataset}
+\label{confusionMatrixCleanSixOutput}
+\end{table}
+
+\begin{table}[H]
+\center
+\begin{tabu}{cc|c|c|c|}
+\cline{3-5}
+& & Recall & Precision & $F_1$ \\ \cline{1-2} \tabucline[1.5pt]{3-5}
+\multicolumn{1}{ |c| }{\multirow{6}{*}{Actual class} } &
+\multicolumn{1}{ |c|[1.5pt] }{1} & 65\% & 83\% & 73\% \\ \cline{2-5}
+\multicolumn{1}{ |c| }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{2} & 84\% & 74\% & 79\% \\ \cline{2-5}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{3} & 82\% & 78\% & 80\% \\ \cline{2-5}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{4} & 94\% & 91\% & 93\% \\ \cline{2-5}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{5} & 70\% & 72\% & 71\% \\ \cline{2-5}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{6} & 91\% & 94\% & 92\% \\ \cline{1-5}
+\end{tabu}
+\caption{Recall, precision and $F_1$ measure for single six-output ANN for the \emph{clean} dataset}
+\label{recallPrecisionF1CleanCleanSixOutput}
+\end{table}
+
+\begin{figure}[H]
+\[ C = \frac{833}{1004} = 83.0\% \]
+\caption{Classification rate for single six-output ANN for the \emph{clean} dataset}
+\end{figure}
+
+\subsubsection{Six single-output networks}
+
+\begin{table}[H]
+\center
+\begin{tabu}{cc|c|c|c|c|c|c|}
+\cline{3-8}
+& & \multicolumn{6}{ c| }{Predicted class} \\ \cline{3-8}
+& & 1 & 2 & 3 & 4 & 5 & 6 \\ \cline{1-2} \tabucline[1.5pt]{3-8}
+\multicolumn{1}{ |c| }{\multirow{6}{*}{Actual class} } &
+\multicolumn{1}{ |c|[1.5pt] }{1} & \textbf{99} & 12 & 7 & 3 & 10 & 1 \\ \cline{2-8}
+\multicolumn{1}{ |c| }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{2} & 9 & \textbf{168} & 3 & 6 & 11 & 1 \\ \cline{2-8}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{3} & 4 & 2 & \textbf{98} & 2 & 3 & 10 \\ \cline{2-8}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{4} & 2 & 4 & 2 & \textbf{205} & 1 & 2 \\ \cline{2-8}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{5} & 8 & 21 & 7 & 4 & \textbf{89} & 3 \\ \cline{2-8}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{6} & 0 & 3 & 10 & 5 & 2 & \textbf{187} \\ \cline{1-8}
+\end{tabu}
+\caption{Confusion Matrix for six single-output ANNs for the \emph{clean} dataset}
+\label{confusionMatrixCleanSingleOutput}
+\end{table}
+
+\begin{table}[H]
+\center
+\begin{tabu}{cc|c|c|c|}
+\cline{3-5}
+& & Recall & Precision & $F_1$ \\ \cline{1-2} \tabucline[1.5pt]{3-5}
+\multicolumn{1}{ |c| }{\multirow{6}{*}{Actual class} } &
+\multicolumn{1}{ |c|[1.5pt] }{1} & 75\% & 81\% & 78\% \\ \cline{2-5}
+\multicolumn{1}{ |c| }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{2} & 84\% & 80\% & 82\% \\ \cline{2-5}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{3} & 82\% & 77\% & 80\% \\ \cline{2-5}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{4} & 95\% & 91\% & 93\% \\ \cline{2-5}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{5} & 67\% & 77\% & 72\% \\ \cline{2-5}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{6} & 90\% & 92\% & 91\% \\ \cline{1-5}
+\end{tabu}
+\caption{Recall, precision and $F_1$ measure for six single-output ANNs for the \emph{clean} dataset}
+\label{recallPrecisionF1CleanCleanSingleOutput}
+\end{table}
+
+\begin{figure}[H]
+\[ C = \frac{846}{1004} = 84.3\% \]
+\caption{Classification rate for six single-output ANNs for the \emph{clean} dataset}
+\end{figure}
+
+\subsection{Noisy dataset}
+
+\subsubsection{Single six-output network}
+
+\begin{table}[H]
+\center
+\begin{tabu}{cc|c|c|c|c|c|c|}
+\cline{3-8}
+& & \multicolumn{6}{ c| }{Predicted class} \\ \cline{3-8}
+& & 1 & 2 & 3 & 4 & 5 & 6 \\ \cline{1-2} \tabucline[1.5pt]{3-8}
+\multicolumn{1}{ |c| }{\multirow{6}{*}{Actual class} } &
+\multicolumn{1}{ |c|[1.5pt] }{1} & \textbf{11} & 16 & 22 & 7 & 25 & 7 \\ \cline{2-8}
+\multicolumn{1}{ |c| }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{2} & 4 & \textbf{149} & 18 & 6 & 6 & 4 \\ \cline{2-8}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{3} & 2 & 15 & \textbf{132} & 10 & 9 & 19 \\ \cline{2-8}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{4} & 3 & 7 & 13 & \textbf{175} & 4 & 7 \\ \cline{2-8}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{5} & 7 & 13 & 14 & 5 & \textbf{56} & 15 \\ \cline{2-8}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{6} & 1 & 4 & 15 & 5 & 9 & \textbf{186} \\ \cline{1-8}
+\end{tabu}
+\caption{Confusion Matrix for single six-output ANN for the \emph{noisy} dataset}
+\label{confusionMatrixNoisySixOutput}
+\end{table}
+
+\begin{table}[H]
+\center
+\begin{tabu}{cc|c|c|c|}
+\cline{3-5}
+& & Recall & Precision & $F_1$ \\ \cline{1-2} \tabucline[1.5pt]{3-5}
+\multicolumn{1}{ |c| }{\multirow{6}{*}{Actual class} } &
+\multicolumn{1}{ |c|[1.5pt] }{1} & 13\% & 39\% & 19\% \\ \cline{2-5}
+\multicolumn{1}{ |c| }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{2} & 80\% & 73\% & 76\% \\ \cline{2-5}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{3} & 71\% & 62\% & 66\% \\ \cline{2-5}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{4} & 84\% & 84\% & 84\% \\ \cline{2-5}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{5} & 51\% & 51\% & 51\% \\ \cline{2-5}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{6} & 85\% & 78\% & 81\% \\ \cline{1-5}
+\end{tabu}
+\caption{Recall, precision and $F_1$ measure for single six-output ANN for the \emph{noisy} dataset}
+\label{recallPrecisionF1CleanNoisySixOutput}
+\end{table}
+
+\begin{figure}[H]
+\[ C = \frac{709}{1001} = 70.8\% \]
+\caption{Classification rate for single six-output ANN for the \emph{noisy} dataset}
+\end{figure}
+
+\subsubsection{Six single-output networks}
+
+\begin{table}[H]
+\center
+\begin{tabu}{cc|c|c|c|c|c|c|}
+\cline{3-8}
+& & \multicolumn{6}{ c| }{Predicted class} \\ \cline{3-8}
+& & 1 & 2 & 3 & 4 & 5 & 6 \\ \cline{1-2} \tabucline[1.5pt]{3-8}
+\multicolumn{1}{ |c| }{\multirow{6}{*}{Actual class} } &
+\multicolumn{1}{ |c|[1.5pt] }{1} & \textbf{15} & 11 & 25 & 8 & 23 & 6 \\ \cline{2-8}
+\multicolumn{1}{ |c| }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{2} & 3 & \textbf{154} & 15 & 6 & 7 & 2 \\ \cline{2-8}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{3} & 1 & 11 & \textbf{139} & 8 & 11 & 17 \\ \cline{2-8}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{4} & 1 & 9 & 11 & \textbf{176} & 6 & 6 \\ \cline{2-8}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{5} & 4 & 8 & 19 & 4 & \textbf{67} & 8 \\ \cline{2-8}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{6} & 1 & 3 & 13 & 4 & 9 & \textbf{190} \\ \cline{1-8}
+\end{tabu}
+\caption{Confusion Matrix for six single-output ANNs for the \emph{noisy} dataset}
+\label{confusionMatrixNoisySingleOutput}
+\end{table}
+
+\begin{table}[H]
+\center
+\begin{tabu}{cc|c|c|c|}
+\cline{3-5}
+& & Recall & Precision & $F_1$ \\ \cline{1-2} \tabucline[1.5pt]{3-5}
+\multicolumn{1}{ |c| }{\multirow{6}{*}{Actual class} } &
+\multicolumn{1}{ |c|[1.5pt] }{1} & 17\% & 60\% & 27\% \\ \cline{2-5}
+\multicolumn{1}{ |c| }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{2} & 82\% & 79\% & 80\% \\ \cline{2-5}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{3} & 74\% & 63\% & 68\% \\ \cline{2-5}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{4} & 84\% & 85\% & 85\% \\ \cline{2-5}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{5} & 61\% & 54\% & 58\% \\ \cline{2-5}
+\multicolumn{1}{ |c|  }{}                        &
+\multicolumn{1}{ |c|[1.5pt] }{6} & 86\% & 83\% & 85\% \\ \cline{1-5}
+\end{tabu}
+\caption{Recall, precision and $F_1$ measure for six single-output ANNs for the \emph{noisy} dataset}
+\label{recallPrecisionF1CleanNoisySingleOutput}
+\end{table}
+
+\begin{figure}[H]
+\[ C = \frac{741}{1001} = 74.0\% \]
+\caption{Classification rate for six single-output ANNs for the \emph{noisy} dataset}
+\end{figure}
+
+\subsection{Discussion of results}
+
+\clearpage
+
+%----------------------------------------------------------------------------------------
+%	SECTION 3 - Questions
 %----------------------------------------------------------------------------------------
 
 \section{Questions}
+\subsection{Optimal topology}
+The final, optimal topology which we used for the networks are:
+\begin{enumerate}
+\item Single six-output network:
+\begin{itemize}
+\item Hidden layers: 1
+\item Hidden neurons: 23
+\item Transfer function: \texttt{'tansig'} (sigmoid)
+\item Training function: \texttt{'trainscg'}
+\item Learning rate: 0.01
+\item Minimum gradient: $3*10^{-6}$
+\item Goal: $2*10^{-3}$
+\end{itemize}
+\item Six single-output networks:
+\begin{itemize}
+\item Hidden layers: 1
+\item Hidden neurons: 9
+\item Transfer function: \texttt{'tansig'} (sigmoid)
+\item Training function: \texttt{'trainscg'}
+\item Learning rate: 0.01
+\item Minimum gradient: $5*10^{-6}$
+\item Goal: $3*10^{-3}$
+\end{itemize}
+\end{enumerate}
+We arrived at these values by performing a series of simulations of the performance of networks with different values on the first fold on the \emph{clean} dataset. In the first experiment, we tried to optimise the topology i.e. number of hidden layers, number of hidden neurons in each layer as well as the training function. We did this my repeatedly training the network with different parameters and plotted the results which are presented in \textbf{Figures \ref{multiOutput1layer}, \ref{multiOutput2layer}, \ref{singleOutput1layer}, \ref{singleOutput2layer}}. From the analysis of the results it can be concluded that the networks with just one hidden layer perform slightly better than those with two hidden layers, and so we trained our final networks with a single hidden layer. In case of the single six-output network, the peak is achieved for 32 hidden neurons, however as our final topology we selected 23 hidden neurons, since the classification rate for this topology is insignificantly smaller, yet the number of neurons is reduced by a third. For the six single-output networks, we decided to choose 9 hidden neurons. \medskip
+
+In terms of the training function, it looks that \texttt{'trainscg'} and \texttt{'trainrp'} perform similarly, while \texttt{'trainlm'} almost always exhibits the worst performance. Due to the speed of training and the classification rates at our chosen numbers of hidden neurons, we ultimately choose \texttt{'trainscg'} as our training function for both types of networks.\medskip
+
+We selected these values because we needed eventually to decide on the topology of the network. However, by looking at the plots, it is clear that the number of hidden layers and neurons (at least for the range of values which we investigated) does not cause the performance to vary significantly beyond some minimum number of neurons and before some maximum. As long as the number of hidden neurons is in some reasonable range (above 20 for the single six-output network and between 6 and 30 for six single-output networks), it does not matter themendously what exact value we would choose.
+
+\begin{figure}[!ht]
+\center
+\includegraphics[width=1\columnwidth]{multiOutput1layer}
+\caption{Classification rate for the first fold of the \emph{clean} dataset with respect to the training function and the number of hidden neurons for a single six-output network with one hidden layer}
+\label{multiOutput1layer}
+\end{figure}
+
+\begin{figure}[!ht]
+\center
+\includegraphics[width=1\columnwidth]{multiOutput2layer}
+\caption{Classification rate for the first fold of the \emph{clean} dataset with respect to the training function and the number of hidden neurons for a single six-output network with two hidden layers}
+\label{multiOutput2layer}
+\end{figure}
+
+\begin{figure}[!ht]
+\center
+\includegraphics[width=1\columnwidth]{singleOutput1layer}
+\caption{Classification rate for the first fold of the \emph{clean} dataset with respect to the training function and the number of hidden neurons for six single-output networks with one hidden layer}
+\label{singleOutput1layer}
+\end{figure}
+
+\begin{figure}[!ht]
+\center
+\includegraphics[width=1\columnwidth]{singleOutput2layer}
+\caption{Classification rate for the first fold of the \emph{clean} dataset with respect to the training function and the number of hidden neurons for six single-output networks with two hidden layers}
+\label{singleOutput2layer}
+\end{figure}
+
+\subsection{Overfitting}
+\subsection{Six-output vs. single-output networks}
+\subsection{Ideal parameter optimisation}
 
 \clearpage
 
 %----------------------------------------------------------------------------------------
-%	SECTION 5 - Code Flowchart
+%	SECTION 4 - Code flowchart
 %----------------------------------------------------------------------------------------
 
 \section{Code Flowchart}
+
 
 \clearpage
 
