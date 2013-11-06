@@ -1,4 +1,4 @@
-function [net] = generateMultiOutputNetwork(xANN,yANN,layers,neurons,transferFcn,trainingFcn,lr) 
+function [net] = generateMultiOutputNetwork(xANN,yANN,layers,neurons,transferFcn,trainingFcn,lr,grad,goal) 
     
     hidden = neurons*ones(1,layers);
     net = feedforwardnet(hidden,trainingFcn);
@@ -9,6 +9,8 @@ function [net] = generateMultiOutputNetwork(xANN,yANN,layers,neurons,transferFcn
         net.layers{i}.transferFcn = transferFcn;
     end
     net.trainParam.lr = lr;
+    net.trainParam.goal = goal;
+    net.trainParam.min_grad = grad;
     net.trainParam.showWindow = 0;
     net.divideFcn = 'divideind';
     net.divideParam.trainInd = 1:800;

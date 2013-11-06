@@ -1,4 +1,4 @@
-function [confusion] = optimiseSingle(x,y,layers,neurons,transferFcn,trainingFcn,lr)
+function [confusion] = optimiseSingle(x,y,layers,neurons,transferFcn,trainingFcn,lr,goal,grad) 
 
 
 trainingSet = x(1:900,:);
@@ -22,6 +22,8 @@ for i=1:possibleOutcomes
     end
     tempnet.trainParam.showWindow = 0;
     tempnet.trainParam.lr = lr;
+    tempnet.trainParam.goal = goal;
+    tempnet.trainParam.min_grad = grad;
     tempnet.divideFcn = 'divideind';
     tempnet.divideParam.trainInd = 1:800;
     tempnet.divideParam.valInd = 801:900;

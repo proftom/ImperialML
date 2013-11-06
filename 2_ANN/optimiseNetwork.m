@@ -1,4 +1,4 @@
-function [recallPrecision, confusion] = optimiseNetwork(x, y, layers, neurons, transferFcn, trainingFcn, lr) 
+function [recallPrecision, confusion] = optimiseNetwork(x,y,layers,neurons,transferFcn,trainingFcn,lr,goal,grad) 
 
     trainingSet = x(1:900,:);
     trainingClass = y(1:900);
@@ -18,6 +18,8 @@ function [recallPrecision, confusion] = optimiseNetwork(x, y, layers, neurons, t
     end
     
     net.trainParam.lr = lr;
+    net.trainParam.goal = goal;
+    net.trainParam.min_grad = grad;
     net.trainParam.showWindow = 0;
     net.divideFcn = 'divideind';
     net.divideParam.trainInd = 1:800;

@@ -28,12 +28,16 @@ function confusionMatrix = nFoldValidate(examples, classifications, n, networkTy
         transferFcn = 'tansig';
         trainingFcn = 'trainscg';
         learningRate = 0.01;
+        grad = 3e-06;
+        goal = 0.002;
     elseif(strcmp(networkType,'single'))
         hiddenLayers = 1;
         hiddenNeurons = 9;
         transferFcn = 'tansig';
         trainingFcn = 'trainscg';
         learningRate = 0.01;
+        grad = 5e-06;
+        goal = 0.003;
     end
     
     for i = 1:n - 1
@@ -56,9 +60,9 @@ function confusionMatrix = nFoldValidate(examples, classifications, n, networkTy
         [trainingExamplesANN,trainingClassesANN] = ANNdata(trainingExamples,trainingClasses);
         
         if(strcmp(networkType,'multi'))
-            net = generateMultiOutputNetwork(trainingExamplesANN,trainingClassesANN,hiddenLayers,hiddenNeurons,transferFcn,trainingFcn,learningRate);
+            net = generateMultiOutputNetwork(trainingExamplesANN,trainingClassesANN,hiddenLayers,hiddenNeurons,transferFcn,trainingFcn,learningRate,grad,goal);
         elseif(strcmp(networkType,'single'))
-            net = generateSingleOutputNetworks(trainingExamplesANN,trainingClassesANN,hiddenLayers,hiddenNeurons,transferFcn,trainingFcn,learningRate);
+            net = generateSingleOutputNetworks(trainingExamplesANN,trainingClassesANN,hiddenLayers,hiddenNeurons,transferFcn,trainingFcn,learningRate,grad,goal);
         end
         
         predictions = testANN(net, testExamplesANN);
@@ -84,9 +88,9 @@ function confusionMatrix = nFoldValidate(examples, classifications, n, networkTy
         [trainingExamplesANN,trainingClassesANN] = ANNdata(trainingExamples,trainingClasses);
         
         if(strcmp(networkType,'multi'))
-            net = generateMultiOutputNetwork(trainingExamplesANN,trainingClassesANN,hiddenLayers,hiddenNeurons,transferFcn,trainingFcn,learningRate);
+            net = generateMultiOutputNetwork(trainingExamplesANN,trainingClassesANN,hiddenLayers,hiddenNeurons,transferFcn,trainingFcn,learningRate,grad,goal);
         elseif(strcmp(networkType,'single'))
-            net = generateSingleOutputNetworks(trainingExamplesANN,trainingClassesANN,hiddenLayers,hiddenNeurons,transferFcn,trainingFcn,learningRate);
+            net = generateSingleOutputNetworks(trainingExamplesANN,trainingClassesANN,hiddenLayers,hiddenNeurons,transferFcn,trainingFcn,learningRate,grad,goal);
         end
         
         predictions = testANN(net, testExamplesANN);

@@ -1,4 +1,4 @@
-function net = generateSingleOutputNetworks(xANN,yANN,layers,neurons,transferFcn,trainingFcn,lr)
+function net = generateSingleOutputNetworks(xANN,yANN,layers,neurons,transferFcn,trainingFcn,lr,grad,goal)
 
     possibleOutcomes = size(yANN,1);
     hidden = neurons*ones(1,layers);
@@ -13,6 +13,8 @@ function net = generateSingleOutputNetworks(xANN,yANN,layers,neurons,transferFcn
         end
         tempnet.trainParam.showWindow = 0;
         tempnet.trainParam.lr = lr;
+        tempnet.trainParam.goal = goal;
+        tempnet.trainParam.min_grad = grad;
         tempnet.divideFcn = 'divideind';
         tempnet.divideParam.trainInd = 1:800;
         tempnet.divideParam.valInd = 801:900;
