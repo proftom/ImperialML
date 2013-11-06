@@ -19,8 +19,6 @@ function [recallPrecision, confusion] = optimiseNetwork(x, y, layers, neurons, t
     
     net.trainParam.lr = lr;
     net.trainParam.showWindow = 0;
-    %net.trainParam.goal = 0.001;
-    %net.trainParam.min_grad = 0.01;
     net.divideFcn = 'divideind';
     net.divideParam.trainInd = 1:800;
     net.divideParam.valInd = 801:900;
