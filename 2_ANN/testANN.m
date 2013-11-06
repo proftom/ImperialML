@@ -1,7 +1,7 @@
 function predictions = testANN(net, inputs)
 
     if size(net) == 1
-        % one network with six output
+        % one network with six outputs
         y = sim(net, inputs);
         predictions = NNout2labels(y);
     else

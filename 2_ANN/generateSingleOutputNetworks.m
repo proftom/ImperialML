@@ -20,5 +20,4 @@ function net = generateSingleOutputNetworks(xANN,yANN,layers,neurons,transferFcn
         tempnet = configure(tempnet, xANN, temptarget);
         net{i} = train(tempnet, xANN, temptarget);
     end
-
 end

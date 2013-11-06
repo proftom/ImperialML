@@ -11,5 +11,4 @@ function [ recallPrecisionF1 ] = recallPrecisionF1(confusionMatrix)
         recallPrecisionF1(outcome,2) = tp/(tp + fp);
         recallPrecisionF1(outcome,3) = ( 2 * recallPrecisionF1(outcome,1) * recallPrecisionF1(outcome,2) ) / ( recallPrecisionF1(outcome,1) + recallPrecisionF1(outcome,2) );
     end
-
 end

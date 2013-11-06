@@ -4,7 +4,7 @@
 % remaining data (a large partition). A tree is generated from the large
 % partition, before testing how well the smaller partition fits to the
 % generated tree. This produces total size of data / n results each
-% iteration. With each iteration the partitions change.
+% iteration. With each iteration the partitions change
 % Possible outcomes is the number of unique classifications
 function confusionMatrix = nFoldValidate(examples, classifications, n, networkType)
    

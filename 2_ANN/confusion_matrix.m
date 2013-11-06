@@ -1,4 +1,5 @@
 function matrix = confusion_matrix(actual, predicted, possible_outcomes)
+
     assert(size(actual, 1) == size(predicted, 1));
     matrix = zeros(possible_outcomes, possible_outcomes);
     

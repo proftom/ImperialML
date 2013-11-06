@@ -25,4 +25,5 @@ function [averageF1Single, averageF1Multi ] = plotAverageF1Measure(confusionMatr
     legend('Six single-output networks','One multi-output network');
     scatter(1:10,averageF1Single,45,'b','fill');
     scatter(1:10,averageF1Multi,45,'r','fill');
+    
 end

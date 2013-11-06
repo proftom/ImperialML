@@ -16,4 +16,5 @@ function [net] = generateMultiOutputNetwork(xANN,yANN,layers,neurons,transferFcn
     net.divideParam.testInd = [];
     
     net = train(net, xANN, yANN);
+    
 end
