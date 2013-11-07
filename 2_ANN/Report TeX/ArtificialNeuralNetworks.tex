@@ -37,6 +37,7 @@
 \usepackage{tabu}
 \usepackage{float}
 \usepackage{pbox}
+\usepackage{subcaption}
 
 \usepackage{listings}
 \usepackage{color}
@@ -499,37 +500,58 @@ In terms of the training function, it looks that \texttt{'trainscg'} and \texttt
 
 We selected these values because we needed eventually to decide on the topology of the network. However, by looking at the plots, it is clear that the number of hidden layers and neurons (at least for the range of values which we investigated) does not cause the performance to vary significantly beyond some minimum number of neurons and before some maximum. As long as the number of hidden neurons is in some reasonable range (above 20 for the single six-output network and between 6 and 30 for six single-output networks), it does not matter themendously what exact value we would choose.
 
-\begin{figure}[!ht]
+\begin{figure}[H]
 \center
 \includegraphics[width=1\columnwidth]{multiOutput1layer}
 \caption{Classification rate for the first fold of the \emph{clean} dataset with respect to the training function and the number of hidden neurons for a single six-output network with one hidden layer}
 \label{multiOutput1layer}
 \end{figure}
 
-\begin{figure}[!ht]
+\begin{figure}[H]
 \center
 \includegraphics[width=1\columnwidth]{multiOutput2layer}
 \caption{Classification rate for the first fold of the \emph{clean} dataset with respect to the training function and the number of hidden neurons for a single six-output network with two hidden layers}
 \label{multiOutput2layer}
 \end{figure}
 
-\begin{figure}[!ht]
+\begin{figure}[H]
 \center
 \includegraphics[width=1\columnwidth]{singleOutput1layer}
 \caption{Classification rate for the first fold of the \emph{clean} dataset with respect to the training function and the number of hidden neurons for six single-output networks with one hidden layer}
 \label{singleOutput1layer}
 \end{figure}
 
-\begin{figure}[!ht]
+\begin{figure}[H]
 \center
 \includegraphics[width=1\columnwidth]{singleOutput2layer}
 \caption{Classification rate for the first fold of the \emph{clean} dataset with respect to the training function and the number of hidden neurons for six single-output networks with two hidden layers}
 \label{singleOutput2layer}
 \end{figure}
 
+\clearpage
+
 \subsection{Overfitting}
+
+There are several ways of avoid overfitting and therefore improve generalisation. General recommendation is to train network which is just large enough to provide a good fit. As mentioned in the book Pattern Recognition, excessive training on multi-layer network may result in poor generalisation 'as the net implements a complex decision boundary "tuned" to the specific training data'. In our experiment we focussed on networks which were as small as possible. Another way to avoid overfitting is regularisation, which involves modifying performance function. Default performance function for \texttt{'trainscg'} was mean squared error. We noticed that by changing our function to the mean squared error and the mean squared weight and bias \texttt{'msereg'} we were able get results, which gave us higher classification rate, up to 1\%. In order to further improve our results we decided to work on early stopping. This was done by experimenting with the goal and minimum grade functions. By running simulations for both types of networks, whose results are presented in Figures \ref{singleOverfitting} and \ref{multiOverfitting}. It follows directly from the Figures that the optimal goal and minimum gradient for the six-output network are $2*10^{-3}$ and $3*10^{-6}$ respectively. For the six single-output networks it is $3*10^{-3}$ and $5*10^{-6}$.
+
+\begin{figure}[!ht]
+\centering
+\begin{minipage}{.5\textwidth}
+  \centering
+  \includegraphics[width=1\linewidth]{singleOverfitting}
+  \captionof{figure}{Classification rate for the first fold\\of the \emph{clean} dataset with respect to the minimum\\gradient and the performance goal for six single-\\output networks with the optimal topology\\outlined before}
+  \label{singleOverfitting}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+  \centering
+  \includegraphics[width=1\linewidth]{multiOverfitting}
+  \captionof{figure}{Classification rate for the first fold\\of the \emph{clean} dataset with respect to the minimum\\gradient and the performance goal for a single six-\\output network with the optimal topology\\outlined before}
+  \label{multiOverfitting}
+\end{minipage}
+\end{figure}
+
 \subsection{Six-output vs. single-output networks}
-The aggregated classification rate for the both types of networks is presented in Figure \ref{comparisonTable}.
+The aggregated classification rate for the both types of networks is presented in Table \ref{comparisonTable}.
 
 \begin{table}[H]
 \center
@@ -543,9 +565,15 @@ The aggregated classification rate for the both types of networks is presented i
 \label{comparisonTable}
 \end{table}
 
-Clearly, the six single-output networks perform better in case of both datasets, however their advantage is not tremendous. The main advantage of them is therefore improved classification rate. Their disadvantages include a slower performance and slower training as well as the possibility of two networks classifying the same example as two different emotions. In our case, since we are using the sigmoid as our transfer function, in order to break tie we always selected the network with greatest output. Similarly, the single six-output netwotks's main advantage is it's speed which comes at the expense of the average classification rate.
+Clearly, the six single-output networks perform better in case of both datasets, however their advantage is not tremendous. This can be explained by the fact that six separate networks can be trained more specifically to detect one particular emotion than one six-output network. Just like in the real world, a General Practitioner can probably diagnose most common illnesses, yet six different specialist doctors might achieve a smaller misdiagnosis rate. Additionally, six single-output networks can be more robust to noise, since during training, noise appearing in the emotions which the network is not concerned with have smaller effect (the class associated with them is always 0). \medskip
+
+The main advantage of them is therefore improved classification rate. Their disadvantages include a slower performance and slower training as well as the possibility of two networks classifying the same example as two different emotions. In our case, since we are using the sigmoid as our transfer function, in order to break tie we always selected the network with greatest output. Similarly, the single six-output netwotks's main advantage is it's speed which comes at the expense of the average classification rate.
 
 \subsection{Ideal parameter optimisation}
+
+We believe that for the n-fold cross-validation the parameters should be optimised for each fold separately in order to achieve the best performance in every single fold.\medskip
+
+For the network trained on the entire \emph{clean} dataset, the parameters could either be, again, optimised on the entire dataset or some combination of the optimal parameters from each fold could be chosen.
 
 \clearpage
 
@@ -561,6 +589,19 @@ Clearly, the six single-output networks perform better in case of both datasets,
 \caption{Code flowchart}
 \label{flowchart}
 \end{figure}
+
+To perform the 10-fold cross-validation and plot the average $F_1$ measure for each fold (note that due to some random variation the result will be different from the one presented in this report):
+\begin{lstlisting}
+>> load cleandata_students.mat
+>> singleOutputConfusionMatrix = nFoldValidate(x,y,10,'single');
+>> multiOutputConfusionMatrix = nFoldValidate(x,y,10,'multi');
+>> plotAverageF1Measure(singleOutputConfusionMatrix,multiOutputConfusionMatrix);
+\end{lstlisting}
+
+To generate a vector of predictions using the provided network:
+\begin{lstlisting}
+>> predictions = testANN(net,x); % 'net' can be either type of network, 'x' represents the examples
+\end{lstlisting}
 
 \clearpage
 
