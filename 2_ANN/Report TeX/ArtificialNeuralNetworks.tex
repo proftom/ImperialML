@@ -222,15 +222,16 @@ Marcin Kadziela, \texttt{mk4910}
 
 \section{Implementation Details}
 \subsection{Overview}
-This report describes the work conducted in the second assignment of the Machine Learning course. The main goal of this coursework was to investigate and learn how to use the tools provided by the  Neural Network Toolbox. The task that we were given was a typical pattern recognition and classification problem. We were supposed to build one network with multiple outputs and multiple single-output neural networks (one for each class). We started this assignment by optimising parameters for each of these networks. The approach taken was optimising topology together with training function first. In later phases we focused on other parameters (such as minimum gradient or goal). Later on we used the 10-fold cross-validation in order to compare performance of the two network types that we have created.
+This report describes the work conducted in the second assignment of the Machine Learning course. The main goal of this coursework was to investigate and learn how to use MATLAB's Neural Network Toolbox. The task that we were given was a typical pattern recognition and classification problem. We were supposed to train, test and evaluate one network with multiple outputs and multiple single-output neural networks (one for each class). We started this assignment by optimising parameters for each of these networks. The approach taken was optimising topology together with the training function first. In later phases we focused on other parameters (such as minimum gradient or goal) which could reduce the problem of overfitting. Eventually, we used the 10-fold cross-validation in order to compare the performance of the two network types.
+
 \subsection{Description of the MATLAB functions}
 \begin{itemize}
 \item \texttt{nFoldValidate(examples, classifications, n, networkType)} - performs the n-fold cross-validation. Takes as arguments the examples, classifications, number of folds and the network type (\texttt{'single'} or \texttt{'multi'}). Based on the network type, it either generates multiple single-output networks or one multi-output network and validates them. It returns a cell array which contains the confusion matrices for each fold
-\item \texttt{generateMultiOutputNetwork(xANN, yANN, layers, neurons, transferFcn,\\trainingFcn, lr, grad, goal)} - generates a multiple-output network based on the arguments which are passed to the function. These include the number of layers, neurons in a layer, training function, transfer function, learning rate, stopping gradient and the performance foal. It is used within \texttt{nFoldValidate()}
+\item \texttt{generateMultiOutputNetwork(xANN, yANN, layers, neurons, transferFcn,\\trainingFcn, lr, grad, goal)} - generates a multiple-output network based on the arguments which are passed to the function. These include the number of layers, neurons in a layer, training function, transfer function, learning rate, stopping gradient and the performance goal. It is used within \texttt{nFoldValidate()}
 \item \texttt{generateSingleOutputNetworks(xANN, yANN, layers, neurons, transferFcn,\\trainingFcn, lr, grad, goal)} - generates multiple single-output networks based on the same arguments as the previous function
 \item \texttt{testANN(network, inputs)} - produces a vector of predictions for the  inputs using provided neural network (either the multi or single output one)
-\item \texttt{recallPrecisionF1(confusionMatrix)} - calculates the recall, precision and F1 measures after taking the confusion matrix as an argument
-\item \texttt{plotAverageF1Measure(confusionMatrixSingle, confusionMatrixMulti)} takes two arrays of confusion matrices (one for each fold) from the single and multi-output networks and plots the average F1 measure for each fold. Its output is a direct answer to the question from Part VIII
+\item \texttt{recallPrecisionF1(confusionMatrix)} - calculates the recall, precision and $F_1$ measures after taking the confusion matrix as an argument
+\item \texttt{plotAverageF1Measure(confusionMatrixSingle, confusionMatrixMulti)} - takes two arrays of confusion matrices (one for each fold) from the single and multi-output networks and plots the average F1 measure for each fold. Its output is a direct answer to the question from Part VIII
 \item \texttt{confusion\_matrix(actual, predicted, possible\_outcomes)} - calculates the confusion matrix given a column vector of actual and predicted outcomes
 \end{itemize}
 
@@ -461,7 +462,7 @@ The average $F_1$ measure per fold for both types of networks is presented below
 
 \clearpage
 \subsection{Discussion of results}
-Overall, we can say that our neural networks perform quite well, especially on the \emph{clean} dataset. There is one emotion in the \emph{noisy} dataset however, for which the performance is bad - emotion 1 with $17\%$ recall and $60\%$ precision for the six single-output networks. It is also worth noting, that the neural networks perform better than the decision trees on both \emph{clean} and \emph{noisy} datasets. The best classification rate for the \emph{clean} dataset achieved by the decision trees was $74.0\%$ compared to $84.3\%$ scored by the neural networks. Similarly, for the \emph{noisy} dataset the results were $61.9\%$ compared to $74.0\%$.
+Overall, we can say that our neural networks perform quite well, especially on the \emph{clean} dataset. There is one emotion in the \emph{noisy} dataset however, for which the performance is unsatisfactory - emotion 1 with $17\%$ recall and $60\%$ precision for the six single-output networks. It is also worth noting, that the neural networks perform better than the decision trees on both \emph{clean} and \emph{noisy} datasets. The best classification rate for the \emph{clean} dataset achieved by the decision trees was $74.0\%$ compared to $84.3\%$ scored by the neural networks. Similarly, for the \emph{noisy} dataset the results were $61.9\%$ compared to $74.0\%$.
 
 \clearpage
 
@@ -471,7 +472,7 @@ Overall, we can say that our neural networks perform quite well, especially on t
 
 \section{Questions}
 \subsection{Optimal topology}
-The final, optimal topology which we used for the networks are:
+The final, optimal parameters for the two types of networks are:
 \begin{enumerate}
 \item Single six-output network:
 \begin{itemize}
@@ -494,7 +495,7 @@ The final, optimal topology which we used for the networks are:
 \item Goal: $3*10^{-3}$
 \end{itemize}
 \end{enumerate}
-We arrived at these values by performing a series of simulations of the performance of networks with different values on the first fold on the \emph{clean} dataset. In the first experiment, we tried to optimise the topology i.e. number of hidden layers, number of hidden neurons in each layer as well as the training function. We did this my repeatedly training the network with different parameters and plotted the results which are presented in \textbf{Figures \ref{multiOutput1layer}, \ref{multiOutput2layer}, \ref{singleOutput1layer}, \ref{singleOutput2layer}}. From the analysis of the results it can be concluded that the networks with just one hidden layer perform slightly better than those with two hidden layers, and so we trained our final networks with a single hidden layer. In case of the single six-output network, the peak is achieved for 32 hidden neurons, however as our final topology we selected 23 hidden neurons, since the classification rate for this topology is insignificantly smaller, yet the number of neurons is reduced by a third. For the six single-output networks, we decided to choose 9 hidden neurons. \medskip
+We arrived at these values by performing a series of simulations of the performance of networks with different values on the first fold on the \emph{clean} dataset. In the first experiment, we tried to optimise the topology i.e. number of hidden layers, number of hidden neurons in each layer as well as the training function. We did this by repeatedly training the network with different parameters and plotted the results which are presented in \textbf{Figures \ref{multiOutput1layer}, \ref{multiOutput2layer}, \ref{singleOutput1layer}, \ref{singleOutput2layer}}. From the analysis of the results it can be concluded that the networks with just one hidden layer perform slightly better than those with two hidden layers, and so we trained our final networks with a single hidden layer. In case of the single six-output network, the peak is achieved for 32 hidden neurons, however as our final topology we selected 23 hidden neurons, since the classification rate for this topology is insignificantly smaller, yet the number of neurons is reduced by almost a third. For the six single-output networks, we decided to choose 9 hidden neurons. \medskip
 
 In terms of the training function, it looks that \texttt{'trainscg'} and \texttt{'trainrp'} perform similarly, while \texttt{'trainlm'} almost always exhibits the worst performance. Due to the speed of training and the classification rates at our chosen numbers of hidden neurons, we ultimately choose \texttt{'trainscg'} as our training function for both types of networks. We also tried to look at the performance of \texttt{'trainbr'} function, however its running time was extremely slow and we ended up not including it. \medskip
 
@@ -532,7 +533,9 @@ We selected these values because we needed eventually to decide on the topology 
 
 \subsection{Overfitting}
 
-There are several ways of avoid overfitting and therefore improve generalisation. General recommendation is to train network which is just large enough to provide a good fit. As mentioned in the book Pattern Recognition, excessive training on multi-layer network may result in poor generalisation 'as the net implements a complex decision boundary "tuned" to the specific training data'. In our experiment we focussed on networks which were as small as possible. Another way to avoid overfitting is regularisation, which involves modifying performance function. Default performance function for \texttt{'trainscg'} was mean squared error. We noticed that by changing our function to the mean squared error and the mean squared weight and bias \texttt{'msereg'} we were able get results, which gave us higher classification rate, up to 1\%. In order to further improve our results we decided to work on early stopping. This was done by experimenting with the goal and minimum grade functions. By running simulations for both types of networks, whose results are presented in Figures \ref{singleOverfitting} and \ref{multiOverfitting}. It follows directly from the Figures that the optimal goal and minimum gradient for the six-output network are $2*10^{-3}$ and $3*10^{-6}$ respectively. For the six single-output networks it is $3*10^{-3}$ and $5*10^{-6}$.
+There are several ways of avoid overfitting and therefore improve generalisation. General recommendation is to train network which is just large enough to provide a good fit. As mentioned in the book 'Pattern Recognition', excessive training on multi-layer network may result in poor generalisation 'as the net implements a complex decision boundary "tuned" to the specific training data'. In our experiment we focussed on networks which were as small as possible. \medskip
+
+Another way to avoid overfitting is regularisation, which involves modifying performance function. Default performance function for \texttt{'trainscg'} was mean squared error. We noticed that by changing our function to the mean squared error and the mean squared weight and bias \texttt{'msereg'} we were able get results, which gave us higher classification rate, up to 1\%. In order to further improve our results we decided to work on early stopping. This was done by experimenting with the goal and minimum gradient. We ran simulations for both types of networks during which we varied the two parameters and the results of these simulations are presented in Figures \ref{singleOverfitting} and \ref{multiOverfitting}. It follows directly from the Figures that the optimal goal and minimum gradient for the six-output network are $2*10^{-3}$ and $3*10^{-6}$ respectively. For the six single-output networks it is $3*10^{-3}$ and $5*10^{-6}$.
 
 \begin{figure}[!ht]
 \centering
@@ -567,13 +570,13 @@ The aggregated classification rate for the both types of networks is presented i
 
 Clearly, the six single-output networks perform better in case of both datasets, however their advantage is not tremendous. This can be explained by the fact that six separate networks can be trained more specifically to detect one particular emotion than one six-output network. Just like in the real world, a General Practitioner can probably diagnose most common illnesses, yet six different specialist doctors might achieve a smaller misdiagnosis rate. Additionally, six single-output networks can be more robust to noise, since during training, noise appearing in the emotions which the network is not concerned with have smaller effect (the class associated with them is always 0). \medskip
 
-The main advantage of them is therefore improved classification rate. Their disadvantages include a slower performance and slower training as well as the possibility of two networks classifying the same example as two different emotions. In our case, since we are using the sigmoid as our transfer function, in order to break tie we always selected the network with greatest output. Similarly, the single six-output netwotks's main advantage is it's speed which comes at the expense of the average classification rate.
+The main advantage of the single-output networks is therefore improved classification rate. Their disadvantages include a slower performance and slower training as well as the possibility of two networks classifying the same example as two different emotions. In our case, since we are using the sigmoid as the transfer function, in order to break tie we always selected the network with greatest output. Similarly, the single six-output network's main advantage is its speed which comes at the expense of the average classification rate.
 
 \subsection{Ideal parameter optimisation}
 
 We believe that for the n-fold cross-validation the parameters should be optimised for each fold separately in order to achieve the best performance in every single fold.\medskip
 
-For the network trained on the entire \emph{clean} dataset, the parameters could either be, again, optimised on the entire dataset or some combination of the optimal parameters from each fold could be chosen.
+For the network trained on the entire \emph{clean} dataset, the parameters could either be optimised on the entire dataset or some combination of the optimal parameters from each fold could be chosen.
 
 \clearpage
 
