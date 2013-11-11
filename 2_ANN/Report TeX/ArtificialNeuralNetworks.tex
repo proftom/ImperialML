@@ -574,9 +574,9 @@ The main advantage of the single-output networks is therefore improved classific
 
 \subsection{Ideal parameter optimisation}
 
-We believe that for the n-fold cross-validation the parameters should be optimised for each fold separately in order to achieve the best performance in every single fold.\medskip
+We believe that for the n-fold cross-validation the parameters should be optimised for each fold separately. For every set of parameters and fold we should also record the performance measure. Then, the ideal way would be to choose a set of parameters which result in the largest average classification rate across all folds. \medskip
 
-For the network trained on the entire \emph{clean} dataset, the parameters could either be optimised on the entire dataset or some combination of the optimal parameters from each fold could be chosen.
+Another good way to optimise the parameters for the network trained on the entire \emph{clean} dataset would be to discard the n-fold validation, and instead optimise the parameters on a single partition into training examples (probably around 900) and validation (the remaining examples). We do not need the test examples in this case, since all unseen data serves as such (including the one on which the network will be tested while marking this assignment).
 
 \clearpage
 
