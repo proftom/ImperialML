@@ -1,6 +1,6 @@
 function [kase, distances] = retrieve(cbr, newCase)
     % Parameter to retrieve the k-nearest neighbours
-    k = 5;
+    k = 3;
     
     distances = zeros(2, size(cbr, 1));
     for i = 1: size(cbr, 1)

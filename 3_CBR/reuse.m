@@ -1,23 +1,47 @@
-function solvedCase = reuse(cases, newCase)
+function newCase = reuse(cases, newCase)
     % Base case
-    if size(cases, 1)
-       solvedCase = newCase;
-       solvedCase.class = cases(1).class;
-       return;
+    if(size(cases, 1) == 1)
+        newCase.class = cases(1).class;
+        return;
     end
-    
+
     NO_CLASS = 6; % Number of possible classes
-    
-    % 1- Inverse Weighted Distance Voting
+
+    % 1 - Inverse Weighted Distance Voting
     scores = zeros(1, NO_CLASS);
-    
-    % Calculate the inverse scores
-    for i = 1:size(cases, 1)
-       inverseDistance = 1/calculateDistance(cases(i).au, newCase.au);
-       scores(cases(i).class) = scores(cases(i).class) + inverseDistance;
+    inverseDistance = zeros(1,size(cases,1));
+
+    for i = 1:size(cases,1)
+       inverseDistance(i) = 1/calculateDistance(cases(i).au, newCase.au);
+       scores(cases(i).class) = scores(cases(i).class) + inverseDistance(i);
     end
     
-    % 2- Typicality
+    [maxScore1,maxIndex1] = max(scores);
+    scores(maxIndex1) = [];
+    maxScore2 = max(scores);
     
+    if(maxScore1 ~= maxScore2)
+        newCase.class = maxIndex1;
+        return;
+    end
     
+    % 2 - Typicality
+    scores = zeros(1, NO_CLASS);
+    for i = 1:size(cases, 1)
+        inverseDistance(i) = inverseDistance(i) * cases(i).typicality;
+        scores(cases(i).class) = scores(cases(i).class) + inverseDistance(i);
+    end
+    
+    [maxScore1,maxIndex1] = max(scores);
+    scores(maxIndex1) = [];
+    maxScore2 = max(scores);
+    
+    if(maxScore1 ~= maxScore2)
+        newCase.class = maxIndex1;
+        return;
+    end
+    
+    % 3 - Trim the k-NN to (k-1)-NN if the case is still unresolved
+    newCase = reuse(cases(1:size(cases,1)-1),newCase);
+    return;
 end
