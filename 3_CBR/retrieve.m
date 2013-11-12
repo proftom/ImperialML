@@ -15,5 +15,11 @@ function [kase, distances] = retrieve(cbr, newCase)
        kase(i) = cbr(distances(i, 1)); 
     end
     
+    % Test if all the values inside are the same
+    while all(distances(1:k, 2) == distances(1, 2))
+        k = k + 1;
+        kase(k) = cbr(distances(k, 1)); 
+    end
+    
     distances = distances(1:k, 2);
 end
