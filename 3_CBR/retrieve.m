@@ -5,7 +5,7 @@ function [kase, distances] = retrieve(cbr, newCase)
     distances = zeros(2, size(cbr, 1));
     for i = 1: size(cbr, 1)
        distances(i, 1) = i;
-       distances(i, 2) = calculateDistance(cbr(i).au, newCase); 
+       distances(i, 2) = calculateDistance(cbr(i).au, newCase.au); 
     end
     
     distances = sortrows(distances, 2);
