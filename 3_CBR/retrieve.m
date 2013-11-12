@@ -17,9 +17,3 @@ function [kase, distances] = retrieve(cbr, newCase)
     
     distances = distances(1:k, 2);
 end
-
-function distance = calculateDistance(a, b)
-    assert(size(a, 2) == size(b,2));
-    distance = sum(abs(a - b));
-end
-
