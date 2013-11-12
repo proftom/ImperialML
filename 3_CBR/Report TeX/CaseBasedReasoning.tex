@@ -38,6 +38,7 @@
 \usepackage{float}
 \usepackage{pbox}
 \usepackage{subcaption}
+\usepackage{algpseudocode}
 
 \usepackage{listings}
 \usepackage{color}
@@ -223,9 +224,28 @@ Marcin Kadziela, \texttt{mk4910}
 \section{Implementation Details}
 
 \subsection{Overview}
+We implemented a case as a MATLAB struct with the following fields:
+\begin{itemize} \itemsep0pt \parskip0pt \parsep0pt
+\item \texttt{au} - which represents the AUs which are active
+\item \texttt{class} - which represents the emotion (can be 0 for a case which does not have a solution yet)
+\item \texttt{typicality} - which represents the number of times this exact case has been encountered during training and subsequently during the RETAIN phase
+\end{itemize}
+Our Case Base is a column vector where each cell represents a case. \medskip
 
 \subsection{Description of the MATLAB functions}
-
+\begin{itemize}
+\item \texttt{CBRInit(x,y)} - this function initialises the case base. It takes as arguments the examples \texttt{x} and classifications \texttt{y} and returns the case base in the format described in the previous subsection
+\item \texttt{retrieve(cbr, newCase)} - this function implements a modified version of the k-NN algorithm to return a set of cases which closest match the \texttt{newCase}. Along with the cases, the function reports a distance from each returned case to the \texttt{newCase}. The modification of the original k-NN algorithm comes from the fact, that if all distances of the returned cases are equal, the function returns \texttt{k+n} cases such that \texttt{n} is the smallest natural number which makes sure that at least one case has a distance different to the remaining \texttt{k+n-1}. This modification is useful because in situations where there are more than \texttt{k} cases with the minimum distance to the \texttt{newCase}, we do not want to restrict ourselves to considering only the ones, which appear first in our case base. We implemented the distance as:
+\begin{equation}
+\sum_{AU = 1}^{45} \left | newCase(AU) - existingCase(AU)\right |
+\end{equation}
+which simply represents the total number of AUs which are different between the two cases
+\item \texttt{reuse(cases, newCase)} - this function takes as arguments the cases returned by the \texttt{retrieve} function as well as the new case without a solution. It performs the majority-voting weighted by the distance of the existing \texttt{cases} in order to determine the most probable solution to the \texttt{newCase}. If there are two or more emotions which have the equal number of 'votes', then the preferred 'vote' is given to the case with a higer value in the \texttt{typicality} field. If there is still ambiguity even after this step, the function removes one of the existing \texttt{cases} which has the largest distance and repeats all the steps. The algorithm will terminate in the worst-case scenario when it will be left with just a single case
+\item \texttt{retain(cbr, newCase)} - this function updates the Case Base with the new case. If the new case does not already exist in the case base, it simply appends it at the end. Otherwise, it increments the \texttt{typicality} field in an identical, existing case
+\item \texttt{makeCase(AUs, class)} - creates a single case struct as described above. It can take either of the two representations of the active AUs as an argument
+\item \texttt{nFoldValidate(examples, classifications, n)} - preforms the n-fold cross-validation and returns the confusion matrices for each fold
+\item \texttt{testCBR(cbr,x2)} - takes the Case Base and a matrix of examples to be classified and returns a column vector of predictions
+\end{itemize}
 \clearpage
 
 %----------------------------------------------------------------------------------------
@@ -241,6 +261,39 @@ Marcin Kadziela, \texttt{mk4910}
 %----------------------------------------------------------------------------------------
 
 \section{Questions}
+\subsection{Two or more best matches}
+
+Our \texttt{retrieve} function returns a set of \texttt{k} or \texttt{k+n} cases which best match the new case so this is not an issue at this point. However, those returned cases might have the same distance, which is our primary similarity measure. This issue is dealt with in the function \texttt{reuse} which computes majority-voting weighted by the inverse distances of the returned cases from the \texttt{retrieve} function. The initial algorithm proceeds as follows: \medskip
+\begin{algorithmic}
+\State \texttt{votes} $\gets [0,0,0,0,0,0]$
+     \ForAll{\texttt{cases}}
+     	\State votes(\texttt{cases.class}) $+=$ $\frac{1}{\texttt{distance(case,newCase})}$
+     \EndFor \\
+\Return \texttt{index(max(votes))} \Comment{return the index of the bucket with maximum number of votes}
+\end{algorithmic} \medskip
+The reason behind using the inverse distance of the \texttt{cases} is that the closest a given case to the \texttt{newCase}, the bigger weight of the vote it should have.\medskip
+
+If the above algorithm is inconclusive, we additionally weigh the votes by the \texttt{typicality} field of the \texttt{cases}. Should this fail as well, we remove the case with the smallest distance and repeat all the steps. Ultimately, we will be left with just a single case and we will assign its class to the \texttt{newCase}.
+
+\subsection{Addition of an existing case to the Case Base}
+
+Since we implemented a \texttt{typicality} field in our Case Base which counts the number of times an identical case has been encountered, we simply increment this value. This field is sometimes used in the \texttt{reuse} function, as described in the previous question.
+
+\subsection{Comparison of the similarity measures}
+
+
+
+\subsection{Initialisation of the Case Base}
+
+We initialise the Case Base by creating a struct (described in the Implementation Details section) for each new case and adding it to the column vector of such structs which represents our entire Case Base. If we encounter the same case multiple times, we increment the \texttt{typicality} field.
+
+\subsection{Eager vs. lazy types of algorithms}
+
+
+
+\subsection{Clean vs. noisy datasets}
+
+
 
 \clearpage
 
