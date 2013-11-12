@@ -28,10 +28,6 @@ function [ cbr ] = CBRInit(x,y)
     cbr = cbr(1:count);
 end
 
-function c = makeCase(example, class)
-    c = struct('au', example, 'class', class, 'typicality', 1);
-end
-
 function c = incrementTypicality(c)
     c.typicality = c.typicality + 1;
 end
