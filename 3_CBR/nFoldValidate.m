@@ -27,17 +27,7 @@ function [ confusionMatrix ] = nFoldValidate(examples, classifications, n)
             [1 : (i-1)*partition_size (i*partition_size) + 1 : len], :);
         
         cbr = CBRInit(trainingExamples, trainingClasses);
-        predictions = zeros(size(testExamples,1),1);
-        
-        for j=1:size(testExamples,1)
-            newCase = makeCase(testExamples(j,:),0);
-            neighbourCases = retrieve(cbr,newCase);
-            solvedCase = reuse(neighbourCases,newCase);
-            cbr = retain(cbr,solvedCase);
-            
-            predictions(j) = solvedCase.class;
-        end
-        
+        predictions = testCBR(cbr,testExamples);
         confusionMatrix{i} = confusion_matrix(testClasses,predictions,6);
     end
     
@@ -57,17 +47,7 @@ function [ confusionMatrix ] = nFoldValidate(examples, classifications, n)
     trainingClasses = classifications(1:(n - 1) * partition_size, :);
     
     cbr = CBRInit(trainingExamples, trainingClasses);
-    predictions = zeros(size(testExamples,1),1);
-    
-    for j=1:size(testExamples,1)
-        newCase = makeCase(testExamples(j,:),0);
-        neighbourCases = retrieve(cbr,newCase);
-        solvedCase = reuse(neighbourCases,newCase);
-        cbr = retain(cbr,solvedCase);
-        
-        predictions(j) = solvedCase.class;
-    end
-    
+    predictions = testCBR(cbr,testExamples);
     confusionMatrix{n} = confusion_matrix(testClasses,predictions,6);
 
 end
