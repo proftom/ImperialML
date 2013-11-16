@@ -1,4 +1,4 @@
-function [ confusionMatrix ] = nFoldValidate(examples, classifications, n) 
+function [ confusionMatrix, concatMatrix ] = nFoldValidate(examples, classifications, n) 
 
     % Preallocate for speed
     confusionMatrix = cell(1,n);
@@ -49,5 +49,10 @@ function [ confusionMatrix ] = nFoldValidate(examples, classifications, n)
     cbr = CBRInit(trainingExamples, trainingClasses);
     predictions = testCBR(cbr,testExamples);
     confusionMatrix{n} = confusion_matrix(testClasses,predictions,6);
-
+    
+    concatMatrix = zeros(6,6);
+    for i=1:n
+        concatMatrix = concatMatrix + confusionMatrix{i};
+    end
+    
 end
