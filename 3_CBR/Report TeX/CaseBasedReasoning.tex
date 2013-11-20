@@ -357,7 +357,13 @@ The results presented in this section are for the modified (as explained in the 
 
 \subsection{Discussion of results}
 
-
+The parameters for k-NN algorithm were optimised by running a sequence of simulations (table 4 and 5). We can observe an interesting tradeoff. There is an initial improvement in the performance when we increase the number of neighbours. This happens becuase we are able to fit an example a bit better for a pattern which certain emotion follows. However once we hit a certain number of neighbours, we start to take into account examples which are not close enough and performance is getting worse. For our optimised parameters CBR system was able to correctly predict almost 9 out of 10 cases (87.1\%) for clean data. We would probably be able to observe even higher results if we validated each new case added to the system. Happiness (4) and surprise (6) were classified very successfully, while anger (1) gave the poorest results. This may imply that the data for anger doesn't follow a very strict pattern and k-NN algorithm returned nearest neighbours of various types for unknown examples.
+\newline
+\newline
+Having run the simulation for noisy data, we observed an expected decrease in performance for all of the emotions. Nevertheless the classification rate was still 74.5\% which was as good as the results for decision trees on the clean data. Very low recall for anger (17\%) suggests that our system was struggling to detect similarity between instances of this emotion. It often mistook them for either fear (3) or disgust(5). This further implies that there was much noise added to the anger data.
+\newline
+\newline
+Case based reasoning performed very well compared to decision trees and artificial neural networks. We observed the highest classification rate for both clean and noisy data. Moreover the results follow a similar model in all of the experiments. This consistency proves the correctness of our implementations in all assignments.
 
 \clearpage
 
@@ -480,7 +486,7 @@ We initialise the Case Base by creating a struct (described in the Implementatio
 CBR belongs to a lazy learning class of algorithms. As opposed to the eager learning algorithms which construct an explicit description of the target function as soon as the training examples are provided, the lazy learning algorithms only store the data and postpone the classification of the new examples until an explicit request is made. The decision tress and neural networks belong to the eager learning methods. As soon as the tree/network is trained, we can get rid of the training examples and never use them again. The trained tree/network is enough to classify any new, incoming example. In CBR however, the training examples are stored in a Case Base, which might increase its size with each new, correctly solved example. One of the most important advantages of the lazy learning method is the fact, that it can estimate the target function locally for each encountered example, instead of creating a single, global and unchangeable description of it.
 
 \subsection{Clean vs. noisy datasets}
-
+Our CBR system initialised on the dirty data consisted already misclassified examples and modelled noise. Therefore we observed around 14\% decrease of classification rate when we run a simulation for noisy data. Interestingly the drop is bigger than in case of decision trees. This may imply that there was some random noise added to the data. Random noise affects CBR systems more, because they don't rely on domimant AUs for a given emotion on contrary to decision trees. As already discussed in the previous sections, we obtained the worst results for anger (1), while other emotions performed relatively well (F1 measure higher then 64%).
 
 
 \clearpage
