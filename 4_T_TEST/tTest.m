@@ -13,19 +13,19 @@ function tMatrix = tTest(decisionTree, ann, cbr)
     
     % dt/ann
     for i = 1:6
-       [h,p,ci,stats] = ttest(dt(i, :), ann(i, :));
+       [h,p,ci,stats] = ttest(dt(i, :), ann(i, :), 'alpha', 0.01667);
        tMatrix(i, 1) = makeNode(h, p, ci, stats);
     end
     
     % dt/cbr
     for i = 1:6
-       [h,p,ci,stats] = ttest(dt(i, :), cbr(i, :));
+       [h,p,ci,stats] = ttest(dt(i, :), cbr(i, :), 'alpha', 0.01667);
        tMatrix(i, 2) = makeNode(h, p, ci, stats);
     end
     
     % ann/cbr
     for i = 1:6
-       [h,p,ci,stats] = ttest(ann(i, :), cbr(i, :));
+       [h,p,ci,stats] = ttest(ann(i, :), cbr(i, :), 'alpha', 0.01667);
        tMatrix(i, 3) = makeNode(h, p, ci, stats);
     end
 end

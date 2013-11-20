@@ -357,12 +357,10 @@ The results presented in this section are for the modified (as explained in the 
 
 \subsection{Discussion of results}
 
-The parameters for k-NN algorithm were optimised by running a sequence of simulations (table 4 and 5). We can observe an interesting tradeoff. There is an initial improvement in the performance when we increase the number of neighbours. This happens becuase we are able to fit an example a bit better for a pattern which certain emotion follows. However once we hit a certain number of neighbours, we start to take into account examples which are not close enough and performance is getting worse. For our optimised parameters CBR system was able to correctly predict almost 9 out of 10 cases (87.1\%) for clean data. We would probably be able to observe even higher results if we validated each new case added to the system. Happiness (4) and surprise (6) were classified very successfully, while anger (1) gave the poorest results. This may imply that the data for anger doesn't follow a very strict pattern and k-NN algorithm returned nearest neighbours of various types for unknown examples.
-\newline
-\newline
-Having run the simulation for noisy data, we observed an expected decrease in performance for all of the emotions. Nevertheless the classification rate was still 74.5\% which was as good as the results for decision trees on the clean data. Very low recall for anger (17\%) suggests that our system was struggling to detect similarity between instances of this emotion. It often mistook them for either fear (3) or disgust(5). This further implies that there was much noise added to the anger data.
-\newline
-\newline
+The parameters for k-NN algorithm were optimised by running a sequence of simulations (table 4 and 5). We can observe an interesting tradeoff. There is an initial improvement in the performance when we increase the number of neighbours. This happens becuase we are able to fit an example a bit better for a pattern which certain emotion follows. However once we hit a certain number of neighbours, we start to take into account examples which are not close enough and performance is getting worse. For our optimised parameters CBR system was able to correctly predict almost 9 out of 10 cases (87.1\%) for clean data. We would probably be able to observe even higher results if we validated each new case added to the system. Happiness (4) and surprise (6) were classified very successfully, while anger (1) gave the poorest results. This may imply that the data for anger doesn't follow a very strict pattern and k-NN algorithm returned nearest neighbours of various types for unknown examples. \medskip
+
+Having run the simulation for noisy data, we observed an expected decrease in performance for all of the emotions. Nevertheless the classification rate was still 74.5\% which was as good as the results for decision trees on the clean data. Very low recall for anger (17\%) suggests that our system was struggling to detect similarity between instances of this emotion. It often mistook them for either fear (3) or disgust(5). This further implies that there was much noise added to the anger data. \medskip
+
 Case based reasoning performed very well compared to decision trees and artificial neural networks. We observed the highest classification rate for both clean and noisy data. Moreover the results follow a similar model in all of the experiments. This consistency proves the correctness of our implementations in all assignments.
 
 \clearpage
@@ -501,14 +499,14 @@ Our CBR system initialised on the dirty data consisted already misclassified exa
 \center
 \includegraphics[width=0.9\columnwidth]{CBRInit}
 \caption{Flowchart of the \texttt{CBRInit} function}
-\label{flowchart}
+\label{flowchartCBRInit}
 \end{figure}
 
 \begin{figure}[H]
 \center
 \includegraphics[width=0.9\columnwidth]{testCBR}
 \caption{Flowchart of the \texttt{testCBR} function}
-\label{flowchart}
+\label{flowchartTestCBR}
 \end{figure}
 
 \clearpage
