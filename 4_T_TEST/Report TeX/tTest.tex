@@ -301,7 +301,10 @@ Marcin Kadziela, \texttt{mk4910}
 
 \subsection{Performance of the algorithms}
 
+How can we say that just by looking at the table? ANN has the most similarities, hence the best??
 
+
+We cannot make general assumptions based on the results that we obtained. As mentioned in the previous report, neaural networks weren't giving us the same results after retraining them. That could be explained by the fact that initial weights and biases were randomised by MATLAB. There are also concerns regarding the data itself. We haven't taken a full advantage of similarity measure functions for CBR, as the data was one dimensional and binary.
 
 \subsection{Adjustment of the significance level}
 
@@ -313,11 +316,12 @@ In each fold for each algorithm the test set consisted of the same examples. For
 
 \subsection{Classification error vs. $F_1$ measure}
 
+The inituitive explanation of that was is fact that for each emotion we wanted to take into account the whole result set. F1 measure would only focus on true positives, false positives and false negatives, while error rate also considers true negatives. In our experiment the data set is quite balanced therefore we can assume that this method will give reliable results. VERY BAD
 
 
 \subsection{Trade-off between number of folds and examples}
 
-
+Increasing the number of folds will result in a better approximation of the distribution function (more samples) at the expense of correctness of each sample. As the fold takes into account less examples it is no longer general and becomes sensitive to untypical examples. In the extreme case (one fold) we only have one sample in each distrubtions and we can only compare their means. In another scenario (number is folds is equal to number of examples) we end up having a distribution that only consists of 0 and 1 samples, which indisposes us to conclude about the similarity of distributions.
 
 \subsection{Additional emotions}
 
