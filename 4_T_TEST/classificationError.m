@@ -4,9 +4,11 @@ function [rate] = classificationError(confusionMatrices, noClass)
     for i = 1:size(confusionMatrices, 2)
        fold = confusionMatrices{i};
        for j = 1:noClass
-           n = sum(fold(j, :));
-           n_predicted = fold(j, j);
-           rate(j, i) = 1 - n_predicted/n;
+           TP = fold(j,j);
+           FP = sum(fold(:,j)) - TP;
+           FN = sum(fold(j,:)) - TP;
+           TN = sum(sum(fold)) - TP - FP - FN;
+           rate(j, i) = 1 - (TP + TN)/(TP + TN + FP + FN);
        end
     end
 end
