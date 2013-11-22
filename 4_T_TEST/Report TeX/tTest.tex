@@ -301,10 +301,11 @@ Marcin Kadziela, \texttt{mk4910}
 
 \subsection{Performance of the algorithms}
 
-How can we say that just by looking at the table? ANN has the most similarities, hence the best??
+For the \emph{clean} dataset, it looks that the CBR algorithm performed clearly better than the Decision Trees. The error rates were statistically different for each emotion and further, manual examination of them shows, that they were almost always smaller in the CBR. It seems that the Artificial Neural Networks perform statistically better than the Decision Trees for most emotions (except emotion 3). It is difficult to assess the performance of the ANN vs. CBR since the t-test returned mixed results. \medskip
 
+In case of the \emph{noisy} dataset, all three algorithms perform similarly and it is difficult to assess whether any of them has performed significantly better. This is particularly the case in ANN vs. CBR since according to the t-test the distributions of errors for both algorithms across all the emotions are statistically similar. \medskip
 
-We cannot make general assumptions based on the results that we obtained. As mentioned in the previous report, neaural networks weren't giving us the same results after retraining them. That could be explained by the fact that initial weights and biases were randomised by MATLAB. There are also concerns regarding the data itself. We haven't taken a full advantage of similarity measure functions for CBR, as the data was one dimensional and binary.
+Having said that, it cannot be claimed that any of the algorithms is clearly a better learning technique than the others. The performance of the algorithms is heavily dependent on the data which needs to be classified and the implementation (especially in case of the CBR). For example, let's assume that we have to classify a vector of 5 features, $[a,b,c,d,e]$ to a binary class. Additionally, let's assume that the first feature $a$ is the most decisive one and carries the most information for the classification. The Decision Trees would actually perform very well on this particular problem, since during training they rely on the information gain of each attribute. Especially if we pruned the tree after the first iteration of the learning algorithm, it might achieve superb performance. On the other hand, a simple implementation of the CBR would try to compare the entire feature vector, even though the variables $[b,c,d,e]$ might actually carry no information whatsoever.
 
 \subsection{Adjustment of the significance level}
 
@@ -312,22 +313,141 @@ Since we have 3 algorithms and we want to compare each with every other, we need
 
 \subsection{Type of the t-test}
 
-In each fold for each algorithm the test set consisted of the same examples. For this reasion, we used the paired t-test because the samples which we are comparing are clearly not independent.
+In each fold for each algorithm the test set consisted of the same examples. For this reasion, we used the paired t-test because the values of the error rate which we are comparing are clearly not independent.
 
 \subsection{Classification error vs. $F_1$ measure}
 
-The inituitive explanation of that was is fact that for each emotion we wanted to take into account the whole result set. F1 measure would only focus on true positives, false positives and false negatives, while error rate also considers true negatives. In our experiment the data set is quite balanced therefore we can assume that this method will give reliable results. VERY BAD
+F1 measure is based only on the true positives, false positives and false negatives, while the error rate also considers the true negatives. For this reason, the error rate is a more comprehensive measure and hence better suited for the t-test.
 
+\subsection{Trade-off between the number of folds and examples per fold}
 
-\subsection{Trade-off between number of folds and examples}
+We have a fixed number of examples (1004 for the \emph{clean} dataset and 1001 for the \emph{noisy} dataset) which we should split into \texttt{n} folds. Increasing the number of examples in each fold also increases the accuracy/resolution of the confusion matrix. In other words, if we assume that the confusion matrix follows some probability distribution (and so does the error rate for this matrix), then increasing the number of examples for each fold is like drawing more samples from this probability distribution. Obviously, if we have more samples from a given probability distribution, then we can compute a better approximation of its probability density function. To sum up, having more test examples per fold allows us to generate a better approximation of the performance of the algorithm for the unseen data. \medskip
 
-Increasing the number of folds will result in a better approximation of the distribution function (more samples) at the expense of correctness of each sample. As the fold takes into account less examples it is no longer general and becomes sensitive to untypical examples. In the extreme case (one fold) we only have one sample in each distrubtions and we can only compare their means. In another scenario (number is folds is equal to number of examples) we end up having a distribution that only consists of 0 and 1 samples, which indisposes us to conclude about the similarity of distributions.
+The disadvantage of increasing number of samples in each fold is that we are decreasing the number of times we can compute the error rate which we use in the t-test. By having the smaller number of samples for the t-test we are essentially decreasing the confidence that it will return meaningful results. For example, if we used the t-test to assess only four samples drawn from Normal distribution with the exact same mean and variance, the t-test might often fail and claim that they come from distributions with two different means. On the other hand, comparing 10000 samples will reduce the probability of such error almost to zero. The same principle can be applied to our case of trying to determine whether the error rates for two different algorithms are statistically different.
 
 \subsection{Additional emotions}
 
-If we wanted to add new emotions to the dataset, the Case Based Reasoning algorithm would require the fewest changes. We would simply add the new emotions to the existing Case Base which would be the only required change. \medskip
+In the answer to this question we are assuming that the new emotions do not change the classifications assigned to the already existing data. \medskip
 
-The Decision Trees and Neural Networks however would require a complete re-training. We would need to partition the new set of emotions together with the old ones into training and validation set and then run the training algorithm. This is obviously a more laborious task than for the CBR.
+If we wanted to add new emotions to the dataset, the Case Based Reasoning algorithm would require the fewest changes. We would simply add the new examples to the existing Case Base which would be the only required change. \medskip
+
+The Decision Trees and Neural Networks however would require a complete re-training. We would need to partition the new set of examples together with the old ones into training and validation set and then run the training algorithm. For the Decision Trees and the Neural Networks, the existing trees and networks would have to be completely discarded and their number would also change (especially if we used \texttt{n} single-output ANNs). Also, for the ANN, we would additionally need to optimise the entire set of parameters, which is the a very computationally expensive task.
+
+\clearpage
+
+\section{Appendix 1 - error rates on the clean dataset}
+
+\subsection{Decision Trees}
+
+\begin{table}[H]
+\center
+\begin{tabular}{c|c|c|c|c|c|c|c|c|c|c|}
+\cline{2-11}
+ & Fold 1 & Fold 2 & Fold 3 & Fold 4 & Fold 5 & Fold 6 & Fold 7 & Fold 8 & Fold 9 & Fold 10 \\ \hline
+\multicolumn{1}{ |c| }{Emotion 1} & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\ \hline
+\multicolumn{1}{ |c| }{Emotion 2} & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\ \hline
+\multicolumn{1}{ |c| }{Emotion 3} & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\ \hline
+\multicolumn{1}{ |c| }{Emotion 4} & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\ \hline
+\multicolumn{1}{ |c| }{Emotion 5} & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\ \hline
+\multicolumn{1}{ |c| }{Emotion 6} & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\ \hline
+\end{tabular}
+\caption{Error rates for each fold and each emotion returned by the Decision Trees algorithm on the \emph{clean} dataset}
+\label{errorsCleanDT}
+\end{table}
+
+\subsection{Artificial Neural Networks}
+
+\begin{table}[H]
+\center
+\begin{tabular}{c|c|c|c|c|c|c|c|c|c|c|}
+\cline{2-11}
+ & Fold 1 & Fold 2 & Fold 3 & Fold 4 & Fold 5 & Fold 6 & Fold 7 & Fold 8 & Fold 9 & Fold 10 \\ \hline
+\multicolumn{1}{ |c| }{Emotion 1} & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\ \hline
+\multicolumn{1}{ |c| }{Emotion 2} & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\ \hline
+\multicolumn{1}{ |c| }{Emotion 3} & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\ \hline
+\multicolumn{1}{ |c| }{Emotion 4} & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\ \hline
+\multicolumn{1}{ |c| }{Emotion 5} & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\ \hline
+\multicolumn{1}{ |c| }{Emotion 6} & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\ \hline
+\end{tabular}
+\caption{Error rates for each fold and each emotion returned by the ANN algorithm on the \emph{clean} dataset}
+\label{errorsCleanANN}
+\end{table}
+
+\subsection{Case Based Reasoning}
+
+\begin{table}[H]
+\center
+\begin{tabular}{c|c|c|c|c|c|c|c|c|c|c|}
+\cline{2-11}
+ & Fold 1 & Fold 2 & Fold 3 & Fold 4 & Fold 5 & Fold 6 & Fold 7 & Fold 8 & Fold 9 & Fold 10 \\ \hline
+\multicolumn{1}{ |c| }{Emotion 1} & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\ \hline
+\multicolumn{1}{ |c| }{Emotion 2} & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\ \hline
+\multicolumn{1}{ |c| }{Emotion 3} & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\ \hline
+\multicolumn{1}{ |c| }{Emotion 4} & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\ \hline
+\multicolumn{1}{ |c| }{Emotion 5} & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\ \hline
+\multicolumn{1}{ |c| }{Emotion 6} & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\ \hline
+\end{tabular}
+\caption{Error rates for each fold and each emotion returned by the CBR algorithm on the \emph{clean} dataset}
+\label{errorsCleanCBR}
+\end{table}
+
+\clearpage
+
+\section{Appendix 2 - error rates of the noisy dataset}
+
+\subsection{Decision Trees}
+
+\begin{table}[H]
+\center
+\begin{tabular}{c|c|c|c|c|c|c|c|c|c|c|}
+\cline{2-11}
+ & Fold 1 & Fold 2 & Fold 3 & Fold 4 & Fold 5 & Fold 6 & Fold 7 & Fold 8 & Fold 9 & Fold 10 \\ \hline
+\multicolumn{1}{ |c| }{Emotion 1} & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\ \hline
+\multicolumn{1}{ |c| }{Emotion 2} & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\ \hline
+\multicolumn{1}{ |c| }{Emotion 3} & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\ \hline
+\multicolumn{1}{ |c| }{Emotion 4} & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\ \hline
+\multicolumn{1}{ |c| }{Emotion 5} & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\ \hline
+\multicolumn{1}{ |c| }{Emotion 6} & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\ \hline
+\end{tabular}
+\caption{Error rates for each fold and each emotion returned by the Decision Trees algorithm on the \emph{noisy} dataset}
+\label{errorsNoisyDT}
+\end{table}
+
+\subsection{Artificial Neural Networks}
+
+\begin{table}[H]
+\center
+\begin{tabular}{c|c|c|c|c|c|c|c|c|c|c|}
+\cline{2-11}
+ & Fold 1 & Fold 2 & Fold 3 & Fold 4 & Fold 5 & Fold 6 & Fold 7 & Fold 8 & Fold 9 & Fold 10 \\ \hline
+\multicolumn{1}{ |c| }{Emotion 1} & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\ \hline
+\multicolumn{1}{ |c| }{Emotion 2} & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\ \hline
+\multicolumn{1}{ |c| }{Emotion 3} & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\ \hline
+\multicolumn{1}{ |c| }{Emotion 4} & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\ \hline
+\multicolumn{1}{ |c| }{Emotion 5} & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\ \hline
+\multicolumn{1}{ |c| }{Emotion 6} & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\ \hline
+\end{tabular}
+\caption{Error rates for each fold and each emotion returned by the ANN algorithm on the \emph{noisy} dataset}
+\label{errorsNoisyANN}
+\end{table}
+
+\subsection{Case Based Reasoning}
+
+\begin{table}[H]
+\center
+\begin{tabular}{c|c|c|c|c|c|c|c|c|c|c|}
+\cline{2-11}
+ & Fold 1 & Fold 2 & Fold 3 & Fold 4 & Fold 5 & Fold 6 & Fold 7 & Fold 8 & Fold 9 & Fold 10 \\ \hline
+\multicolumn{1}{ |c| }{Emotion 1} & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\ \hline
+\multicolumn{1}{ |c| }{Emotion 2} & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\ \hline
+\multicolumn{1}{ |c| }{Emotion 3} & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\ \hline
+\multicolumn{1}{ |c| }{Emotion 4} & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\ \hline
+\multicolumn{1}{ |c| }{Emotion 5} & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\ \hline
+\multicolumn{1}{ |c| }{Emotion 6} & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% & 0\% \\ \hline
+\end{tabular}
+\caption{Error rates for each fold and each emotion returned by the CBR algorithm on the \emph{noisy} dataset}
+\label{errorsNoisyCBR}
+\end{table}
 
 \clearpage
 
