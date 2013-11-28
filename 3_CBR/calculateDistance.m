@@ -1,6 +1,6 @@
 function distance = calculateDistance(a, b, ig, method)
     if nargin < 4
-       method = 1;
+       method = 3;
     end
 
     if method == 1
@@ -34,6 +34,6 @@ function distance = calculateDistanceIG(a, b, ig)
     distance = 0;
     
     for i = 1:size(a, 2)
-       distance = distance + 1/ig(i) * abs(a(i) - b(i)); 
+       distance = distance + ig(i) * abs(a(i) - b(i)); 
     end
 end
