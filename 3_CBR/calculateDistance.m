@@ -1,6 +1,6 @@
 function distance = calculateDistance(a, b, ig, method)
     if nargin < 4
-       method = 3;
+       method = 1;
     end
 
     if method == 1
