@@ -3,9 +3,10 @@ function [kase, distances] = retrieve(cbr, newCase)
     k = 5;
     
     distances = zeros(size(cbr, 1),2);
+    ig = calculateIG(cbr);
     for i = 1: size(cbr, 1)
        distances(i, 1) = i;
-       distances(i, 2) = calculateDistance(cbr(i).au, newCase.au); 
+       distances(i, 2) = calculateDistance(cbr(i).au, newCase.au, ig);
     end
     
     distances = sortrows(distances, 2);

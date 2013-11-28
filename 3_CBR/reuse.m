@@ -6,13 +6,15 @@ function newCase = reuse(cases, newCase)
     end
 
     NO_CLASS = 6; % Number of possible classes
+    
+    ig = calculateIG(cases);
 
     % 1 - Inverse Weighted Distance Voting
     scores = zeros(1, NO_CLASS);
     inverseDistance = zeros(1,size(cases,1));
 
     for i = 1:size(cases,1)
-       inverseDistance(i) = 1/calculateDistance(cases(i).au, newCase.au);
+       inverseDistance(i) = 1/calculateDistance(cases(i).au, newCase.au, ig);
        scores(cases(i).class) = scores(cases(i).class) + inverseDistance(i);
     end
     
