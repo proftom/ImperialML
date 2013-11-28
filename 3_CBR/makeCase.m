@@ -5,9 +5,13 @@ function c = makeCase(AUs, class)
         for i = 1:length(AUs)
            au(AUs(i)) = 1;
         end
-        c = struct('au', au, 'class', class, 'typicality', 1);
+        c = makeStruct(au, class, 1);
     else 
        assert(length(AUs) == 45); 
-       c = struct('au', AUs, 'class', class, 'typicality', 1);           
+       c = makeStruct(AUs, class, 1);           
     end
+end
+
+function c = makeStruct(au, class, typicality)
+    c = struct('au', au, 'class', class, 'typicality', typicality);
 end
