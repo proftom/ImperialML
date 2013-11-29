@@ -44,5 +44,5 @@ function newCase = reuse(cases, newCase, cbr)
     end
     
     % 3 - Trim the k-NN to (k-1)-NN if the case is still unresolved
-    newCase = reuse(cases(1:size(cases,1)-1),newCase);
+    newCase = reuse(cases(1:size(cases,1)-1),newCase,cbr);
 end

@@ -1,6 +1,6 @@
 function distance = calculateDistance(a, b, ig, method)
     if nargin < 4
-       method = 3;
+       method = 1;
     end
 
     if method == 1
@@ -30,10 +30,5 @@ end
 % ------ IG WEIGHTED DISTANCE ------
 function distance = calculateDistanceIG(a, b, ig)
     assert(size(a, 2) == size(b,2) && size(a, 2) == size(ig, 2));
-    
-    distance = 0;
-    
-    for i = 1:size(a, 2)
-       distance = distance + ig(i) * abs(a(i) - b(i)); 
-    end
+    distance = sum(ig.*abs(a - b));
 end
