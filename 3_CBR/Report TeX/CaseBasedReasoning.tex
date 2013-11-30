@@ -236,7 +236,7 @@ Our Case Base is a column vector where each cell represents a case. \medskip
 \subsection{Description of the MATLAB functions}
 \begin{itemize}
 \item \texttt{CBRInit(x,y)} - this function initialises the case base. It takes as arguments the examples \texttt{x} and classifications \texttt{y} and returns the case base in the format described in the previous subsection
-\item \texttt{retrieve(cbr, newCase)} - this function implements a modified version of the k-NN algorithm to return a set of cases which closest match the \texttt{newCase}. Along with the cases, the function reports a distance from each returned case to the \texttt{newCase}. The modification of the original k-NN algorithm comes from the fact, that if at least two largest distances returned from the function are equal, the function returns \texttt{k+n} cases such that \texttt{n} is the smallest natural number which makes sure that no case which have the distance equal to the largest one in the original \texttt{k} cases is omitted. This modification is useful because in situations where there are more than \texttt{k} cases with the same distance to the \texttt{newCase}, we do not want to restrict ourselves to considering only the ones, which appear first in our case base. We implemented the \emph{Manhattan}, \emph{Euclidean} and the \emph{Information Gain-Weighted Manhattan} distances as our similarity measures
+\item \texttt{retrieve(cbr, newCase)} - this function implements a modified version of the k-NN algorithm to return a set of cases which closest match the \texttt{newCase}. Along with the cases, the function reports a distance from each returned case to the \texttt{newCase}. The modification of the original k-NN algorithm comes from the fact, that if at least two largest distances returned from the function are equal, the function returns \texttt{k+n} cases such that \texttt{n} is the smallest natural number which makes sure that no case which have the distance equal to the largest one in the original \texttt{k} cases is omitted. This modification is useful because in situations where there are more than \texttt{k} cases with the same distance to the \texttt{newCase}, we do not want to restrict ourselves to considering only the ones, which appear first in our case base. We implemented the \emph{Manhattan}, \emph{Euclidean} and the \emph{Information Gain-weighted Manhattan} distances as our similarity measures
 \item \texttt{reuse(cases, newCase)} - this function takes as arguments the cases returned by the \texttt{retrieve} function as well as the new case without a solution. It performs the majority-voting weighted by the distance of the existing \texttt{cases} in order to determine the most probable solution to the \texttt{newCase}. If there are two or more emotions which have the equal number of 'votes', then the preferred 'vote' is given to the case with a higer value in the \texttt{typicality} field. If there is still ambiguity even after this step, the function removes one of the existing \texttt{cases} which has the largest distance and repeats all the steps. The algorithm will terminate in the worst-case scenario when it will be left with just a single case
 \item \texttt{retain(cbr, newCase)} - this function updates the Case Base with the new case. If the new case does not already exist in the case base, it simply appends it at the end. Otherwise, it increments the \texttt{typicality} field in an identical, existing case
 \item \texttt{makeCase(AUs, class)} - creates a single case struct as described above. It can take either of the two representations of the active AUs as an argument
@@ -250,7 +250,7 @@ Our Case Base is a column vector where each cell represents a case. \medskip
 %----------------------------------------------------------------------------------------
 
 \section{Evaluation}
-The results presented in this section are for the modified (as explained in the Implementation Details) distance-weighted \textbf{5-NN} algorithm on the \emph{clean} dataset and \textbf{9-NN} on the \emph{noisy} one. We chose these algorithms because they performed best during our tests. Other variations of the algorithm are analysed in the next section under 'Comparison of similarity measures'.
+The results presented in this section are for the modified Distance-weighted \textbf{5-NN} algorithm with \emph{Manhattan} distance on the \emph{clean} dataset and the Simple \textbf{7-NN} with \emph{Information Gain-weighted Manhattan} distance on the \emph{noisy} one. We chose these distances and values for \texttt{k} because they performed best during our tests. Other values for \texttt{k} and the two remaining distances are analysed in the next section.
 
 \subsection{Clean dataset}
 
@@ -273,7 +273,7 @@ The results presented in this section are for the modified (as explained in the 
 \multicolumn{1}{ |c|  }{}                        &
 \multicolumn{1}{ |c|[1.5pt] }{6} & 1 & 1 & 6 & 6 & 0 & \textbf{193} \\ \cline{1-8}
 \end{tabu}
-\caption{Confusion Matrix for the modified 5-NN distance-weighted algorithm on the \emph{clean} dataset}
+\caption{Confusion Matrix for the modified 5-NN Distance-weighted algorithm on the \emph{clean} dataset}
 \label{confusionMatrixClean5NN}
 \end{table}
 
@@ -295,13 +295,13 @@ The results presented in this section are for the modified (as explained in the 
 \multicolumn{1}{ |c|  }{}                        &
 \multicolumn{1}{ |c|[1.5pt] }{6} & 93\% & 90\% & 92\% \\ \cline{1-5}
 \end{tabu}
-\caption{Recall, precision and $F_1$ measure for the modified 5-NN distance-weighted algorithm on the \emph{clean} dataset}
+\caption{Recall, precision and $F_1$ measure for the modified 5-NN Distance-weighted algorithm on the \emph{clean} dataset with \emph{Manhattan} distance}
 \label{recallPrecisionF1Clean5NN}
 \end{table}
 
 \begin{figure}[H]
 \[ C = \frac{874}{1004} = 87.1\% \]
-\caption{Classification rate for the modified 5-NN distance-weighted algorithm on the \emph{clean} dataset}
+\caption{Classification rate for the modified 5-NN Distance-weighted algorithm on the \emph{clean} dataset with \emph{Manhattan} distance}
 \end{figure}
 
 \subsection{Noisy dataset}
@@ -313,19 +313,19 @@ The results presented in this section are for the modified (as explained in the 
 & & \multicolumn{6}{ c| }{Predicted class} \\ \cline{3-8}
 & & 1 & 2 & 3 & 4 & 5 & 6 \\ \cline{1-2} \tabucline[1.5pt]{3-8}
 \multicolumn{1}{ |c| }{\multirow{6}{*}{Actual class} } &
-\multicolumn{1}{ |c|[1.5pt] }{1} & \textbf{15} & 11 & 31 & 4 & 22 & 5 \\ \cline{2-8}
+\multicolumn{1}{ |c|[1.5pt] }{1} & \textbf{33} & 10 & 16 & 8 & 16 & 5 \\ \cline{2-8}
 \multicolumn{1}{ |c| }{}                        &
-\multicolumn{1}{ |c|[1.5pt] }{2} & 0 & \textbf{160} & 15 & 3 & 6 & 3 \\ \cline{2-8}
+\multicolumn{1}{ |c|[1.5pt] }{2} & 9 & \textbf{157} & 15 & 2 & 2 & 2 \\ \cline{2-8}
 \multicolumn{1}{ |c|  }{}                        &
-\multicolumn{1}{ |c|[1.5pt] }{3} & 4 & 10 & \textbf{133} & 9 & 6 & 25 \\ \cline{2-8}
+\multicolumn{1}{ |c|[1.5pt] }{3} & 8 & 12 & \textbf{136} & 10 & 7 & 14 \\ \cline{2-8}
 \multicolumn{1}{ |c|  }{}                        &
-\multicolumn{1}{ |c|[1.5pt] }{4} & 3 & 8 & 11 & \textbf{170} & 4 & 13 \\ \cline{2-8}
+\multicolumn{1}{ |c|[1.5pt] }{4} & 4 & 9 & 7 & \textbf{181} & 3 & 5 \\ \cline{2-8}
 \multicolumn{1}{ |c|  }{}                        &
-\multicolumn{1}{ |c|[1.5pt] }{5} & 5 & 5 & 14 & 2 & \textbf{74} & 10 \\ \cline{2-8}
+\multicolumn{1}{ |c|[1.5pt] }{5} & 17 & 9 & 10 & 2 & \textbf{61} & 11 \\ \cline{2-8}
 \multicolumn{1}{ |c|  }{}                        &
-\multicolumn{1}{ |c|[1.5pt] }{6} & 1 & 1 & 8 & 7 & 9 & \textbf{194} \\ \cline{1-8}
+\multicolumn{1}{ |c|[1.5pt] }{6} & 2 & 2 & 13 & 4 & 5 & \textbf{194} \\ \cline{1-8}
 \end{tabu}
-\caption{Confusion Matrix for the modified 9-NN distance-weighted algorithm on the \emph{noisy} dataset}
+\caption{Confusion Matrix for the Simple 7-NN algorithm on the \emph{noisy} dataset with \emph{Information Gain-weighted} distance}
 \label{confusionMatrixNoisy9NN}
 \end{table}
 
@@ -335,32 +335,34 @@ The results presented in this section are for the modified (as explained in the 
 \cline{3-5}
 & & Recall & Precision & $F_1$ \\ \cline{1-2} \tabucline[1.5pt]{3-5}
 \multicolumn{1}{ |c| }{\multirow{6}{*}{Actual class} } &
-\multicolumn{1}{ |c|[1.5pt] }{1} & 17\% & 54\% & 26\% \\ \cline{2-5}
+\multicolumn{1}{ |c|[1.5pt] }{1} & 38\% & 45\% & 41\% \\ \cline{2-5}
 \multicolumn{1}{ |c| }{}                        &
-\multicolumn{1}{ |c|[1.5pt] }{2} & 86\% & 82\% & 84\% \\ \cline{2-5}
+\multicolumn{1}{ |c|[1.5pt] }{2} & 84\% & 79\% & 81\% \\ \cline{2-5}
 \multicolumn{1}{ |c|  }{}                        &
-\multicolumn{1}{ |c|[1.5pt] }{3} & 71\% & 63\% & 67\% \\ \cline{2-5}
+\multicolumn{1}{ |c|[1.5pt] }{3} & 73\% & 69\% & 71\% \\ \cline{2-5}
 \multicolumn{1}{ |c|  }{}                        &
-\multicolumn{1}{ |c|[1.5pt] }{4} & 81\% & 87\% & 84\% \\ \cline{2-5}
+\multicolumn{1}{ |c|[1.5pt] }{4} & 87\% & 87\% & 87\% \\ \cline{2-5}
 \multicolumn{1}{ |c|  }{}                        &
-\multicolumn{1}{ |c|[1.5pt] }{5} & 67\% & 61\% & 64\% \\ \cline{2-5}
+\multicolumn{1}{ |c|[1.5pt] }{5} & 55\% & 65\% & 60\% \\ \cline{2-5}
 \multicolumn{1}{ |c|  }{}                        &
-\multicolumn{1}{ |c|[1.5pt] }{6} & 88\% & 78\% & 83\% \\ \cline{1-5}
+\multicolumn{1}{ |c|[1.5pt] }{6} & 88\% & 84\% & 86\% \\ \cline{1-5}
 \end{tabu}
-\caption{Recall, precision and $F_1$ measure for the modified 9-NN distance-weighted algorithm on the \emph{noisy} dataset}
+\caption{Recall, precision and $F_1$ measure for Simple 7-NN algorithm on the \emph{noisy} dataset with \emph{Information Gain-weighted} distance}
 \label{recallPrecisionF1Noisy9NN}
 \end{table}
 
 \begin{figure}[H]
-\[ C = \frac{746}{1001} = 74.5\% \]
-\caption{Classification rate for the modified 9-NN distance-weighted algorithm on the \emph{noisy} dataset}
+\[ C = \frac{762}{1001} = 76.1\% \]
+\caption{Classification rate for Simple 7-NN algorithm on the \emph{noisy} dataset with \emph{Information Gain-weighted} distance}
 \end{figure}
 
 \subsection{Discussion of results}
 
-Having run the simulation for the \emph{noisy} dataset, we observed an expected decrease in performance for all emotions. Nevertheless the classification rate was still 74.5\% which was as good as the results for the Decision Trees on the \emph{clean} dataset. Very low recall for anger (17\%) suggests that our system was struggling to detect similarity between instances of this emotion. It often confused them for either fear (3) or disgust(5). This further implies that there was much noise added to the anger data or the emotion itself exhibits a pattern which is difficult to recognise. \medskip
+We achieved an extremely good classification rate of 87.1\% on the \emph{clean} dataset, which was also the highest from all algorithms investigated in this coursework. This result implies that the Case Based Reasoning is the best algorithms for application to emotion recognition, which is a task with a quite complex problem domain. The CBR system can calculate a different, local approximation to the target function for each encountered example which significantly reduces the complexity of the problem domain. We believe that it is this fact that best explains why the CBR performed so well in this particular recognition task. \medskip
 
-Case based reasoning performed very well compared to the Decision Trees and the Artificial Neural Networks. We observed the highest classification rate for both \emph{clean} and \emph{noisy} datasets. Moreover the results follow a similar model in all experiments.
+Having run the simulation for the \emph{noisy} dataset, we observed an expected decrease in performance for all emotions. Nevertheless the classification rate was still 76.1\% which was better thnn the results for the Decision Trees on the \emph{clean} dataset. Very low recall for anger (38\%) suggests that our system was struggling to detect similarity between instances of this emotion. It often confused them for either fear (3) or disgust (5). This further implies that there was much noise added to the anger data or the emotion itself exhibits a pattern which is difficult to recognise. \medskip
+
+Case Based Reasoning performed very well compared to the Decision Trees and the Artificial Neural Networks. We observed the highest classification rate for both \emph{clean} and \emph{noisy} datasets. Otherwise, the results follow a similar model in all experiments.
 
 \clearpage
 
@@ -404,13 +406,11 @@ D_E = \sum_{AU = 1}^{45} \left | newCase(AU) - existingCase(AU)\right |
 D_M = \sqrt{ \sum_{AU = 1}^{45} \left ( newCase(AU) - existingCase(AU)\right )^{2} }
 \end{equation}
 
-\item \emph{Information Gain-Weighted Manhattan} distance:
+\item \emph{Information Gain-weighted Manhattan} distance:
 
 \begin{equation}
 D_{IG} = \sum_{AU = 1}^{45} IG(AU)\times \left | newCase(AU) - existingCase(AU)\right |
 \end{equation}
-
-where
 
 \begin{equation}
 \begin{split}
@@ -431,9 +431,17 @@ for which the average classification rates are presented in Tables \ref{kNNCompa
 \item Distance-weighted k-NN - which performs the majority voting weighing each vote by the distance of the case as described in the previous section
 \end{itemize}
 
-Obviously, since in our problem the Euclidean distance is simply a square root of the Manhattan distance, the same cases are going to be returned in each iteration. Therefore, the Simple k-NN algorithm performs identically for both types of distances. There is a slight difference in the performance of the Distance-weighted k-NN for the Euclidean distance because the weights assigned to each vote are essentially square roots of the original Manhattan distances (i.e. the cases with bigger distances are not penalised as heavily).
+Obviously, since in our problem the \emph{Euclidean} distance is simply a square root of the \emph{Manhattan} distance, the same cases are going to be returned in each iteration. Therefore, the Simple k-NN algorithm performs identically for both types of distances. There is a slight difference in the performance of the Distance-weighted k-NN for the \emph{Euclidean} distance because the weights assigned to each vote are essentially square roots of the original \emph{Manhattan} distances (i.e. the cases with bigger distances are not penalised as heavily). \medskip
 
-Additionally, we can observe an interesting trade-off. There is an initial improvement in the performance when we increase the number of neighbours. This happens because we are able to fit an example a bit better for a pattern which certain emotion follows. However once we hit a certain number of neighbours, we start to take into account examples which are not close enough and performance is getting worse, which is evident especially for the Simple k-NN algorithm. For our optimised parameters the CBR system was able to correctly predict almost 9 out of 10 examples (87.1\%) on the \emph{clean} dataset. We would probably be able to observe even higher results if we validated each new case added to the system.
+Additionally, we can observe an interesting trade-off. There is an initial improvement in the performance when we increase the number of neighbours. However once we hit a certain number of neighbours, we start to take into account examples which are not close enough and performance is getting worse, which is evident especially for the Simple k-NN algorithm, which weight all votes equally, even those for the distant cases. For our optimised parameters the CBR system was able to correctly predict almost 9 out of 10 examples (87.1\%) on the \emph{clean} dataset. We would probably be able to observe even higher results if we validated each new case added to the system. \medskip
+
+In terms of the \emph{Information Gain-weighted Manhattan} distance, it performs a bit worse than both the \emph{Manhattan} and \emph{Euclidean} distance on the \emph{clean} dataset. Interestingly however, the \emph{IG-weighted Manhattan's} performance on the \emph{noisy} dataset is the best from all distances, achieving a classification rate of 76.1\% for the Simple 7-NN algorithm. This might be an indication, that weighing the distances for each AU by their respective Information Gain attenuates the noise added to the examples. \medskip
+
+In conclusion, if we were to recommend a particular algorithm and distance for either a \emph{clean} or \emph{noisy} dataset, they would be:
+\begin{itemize}
+\item \emph{Clean} dataset - Manhattan distance and the Distance-weighted 5-NN algorithm
+\item \emph{Noisy} dataset - Information Gain-weighted Manhattan distance and the Simple 7-NN algorithm
+\end{itemize}
 
 \begin{table}[H]
 \center
@@ -494,7 +502,7 @@ Additionally, we can observe an interesting trade-off. There is an initial impro
 \multicolumn{1}{ |c|[1.5pt] }{ 9-NN} & 83.9\% & 75.2\% & 84.4\% & 74.5\% \\ \cline{1-5}
 \multicolumn{1}{ |c|[1.5pt] }{10-NN} & 83.8\% & 75.3\% & 84.1\% & 74.6\% \\ \cline{1-5}
 \end{tabu}
-\caption{Comparison of the different versions of the simple and distance-weighted k-NN algorithms for the \emph{Information Gain-Weighted Manhattan} distance}
+\caption{Comparison of the different versions of the simple and distance-weighted k-NN algorithms for the \emph{Information Gain-weighted Manhattan} distance}
 \label{kNNComparisonIG}
 \end{table}
 
